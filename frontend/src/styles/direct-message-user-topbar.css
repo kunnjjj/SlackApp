@@ -1,0 +1,20 @@
+
+.direct-message-user-topbar{
+    width:100%;
+    border-bottom:1px solid black;
+    padding:10px 20px ;
+}
+
+.direct-message-user-icon{
+    width: 40px;
+    height:40px;
+}
+
+.direct-message-username{
+    color:#000000;
+}
+
+.fa-icon{
+    background-color: #000000 !important;
+}
+

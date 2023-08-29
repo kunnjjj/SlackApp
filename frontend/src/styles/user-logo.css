@@ -1,0 +1,27 @@
+.user-logo img{
+    height: 100%;
+    width: 100%;
+}
+.user-logo{
+    border-radius: 5px;
+    position: relative;
+    background-color: white;
+}
+
+.circle{
+    border-radius: 50px;
+    position: absolute;
+    bottom:1px;
+    right:-5px;
+    box-shadow: 0 0 0 2px #350d36;
+}
+
+.online{
+    height:10px;
+    width:10px;
+}
+
+.offline{
+    height:10px;
+    width:10px;
+}

@@ -1,0 +1,7 @@
+.history-icon{
+    display: flex;
+    justify-content: flex-end;
+    height:100%;
+    align-items: center;
+    color:white;
+}
