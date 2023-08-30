@@ -1,9 +1,11 @@
-import '../../styles/top-navbar.css'
-import HelpIcon from '../utils/HelpIcon'
-import UserLogo from '../utils/UserLogo'
-import SearchBar from './SearchBar'
-import HistoryIcon from '../utils/HistoryIcon'
 import React from 'react'
+
+import HistoryIcon from '../historyIcon/HistoryIcon'
+import SearchBar from '../searchBar/SearchBar'
+import UserLogo from '../userLogo/UserLogo'
+import HelpIcon from '../helpIcon/HelpIcon'
+
+import './top-navbar.css'
 
 const TopNavbar = () => {
     return (

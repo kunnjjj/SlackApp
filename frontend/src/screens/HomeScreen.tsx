@@ -1,10 +1,11 @@
-import React from "react";
-import Content from "../components/content/Content";
-import TopNavbar from "../components/topnavbar/TopNavbar";
-import UserLogo from "../components/utils/UserLogo";
-import { ChannelNameContext } from "../contexts/ChannelNameContext";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { type User } from "../typescriptTypes/user";
+import React from 'react';
+import TopNavbar from '../components/topNavbar/TopNavbar'
+import Body from '../components/body/Body'
+import { type User } from '../types/user';
+import UserLogo from '../components/userLogo/UserLogo';
+import { CurrentUserProvider } from '../contexts/CurrentUser';
+import { ChannelNameProvider } from '../contexts/ChannelName';
+
 const currentUser: User = {
   icon: <UserLogo />,
   name: "Current User",
@@ -14,12 +15,12 @@ const currentUser: User = {
 const HomeScreen = () => {
   return (
     <>
-      <CurrentUserContext.Provider value={currentUser}>
-        <ChannelNameContext.Provider value="Sprinklr Frontend">
+      <CurrentUserProvider value={currentUser}>
+        <ChannelNameProvider value="Sprinklr Frontend">
           <TopNavbar />
-          <Content />
-        </ChannelNameContext.Provider>
-      </CurrentUserContext.Provider>
+          <Body />
+        </ChannelNameProvider>
+      </CurrentUserProvider>
     </>
   );
 };
