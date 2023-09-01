@@ -3,14 +3,14 @@ import React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 
 // components
-import LeftNavbar from '../leftNavbar/LeftNavbar'
-import Main from '../main/Main'
+import LeftNavbar from './leftNavbar/LeftNavbar'
+import Main from './main/Main'
 import UserLogo from '../userLogo/UserLogo'
 
 // contexts
 
 // types
-import { type User } from '../../types/user'
+import { type User } from './types/user'
 
 // styles
 import './body.css'
@@ -73,7 +73,7 @@ const Body = () => {
 
     const mouseUpHandler = () => {
         document.removeEventListener('mousemove', setWidthHandler);
-    } 
+    }
 
     const newUserClickHandler = (newUser: User) => {
         setSelectedUser(newUser);

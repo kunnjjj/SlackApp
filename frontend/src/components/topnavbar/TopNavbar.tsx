@@ -1,9 +1,9 @@
 import React from 'react'
 
-import HistoryIcon from '../historyIcon/HistoryIcon'
-import SearchBar from '../searchBar/SearchBar'
+import HistoryIcon from './historyIcon/HistoryIcon'
+import SearchBar from './searchBar/SearchBar'
 import UserLogo from '../userLogo/UserLogo'
-import HelpIcon from '../helpIcon/HelpIcon'
+import HelpIcon from './helpIcon/HelpIcon'
 
 import './top-navbar.css'
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createContext, useContext } from 'react';
-import { type User } from '../types/user'
+import { type User } from '../components/body/types/user'
 export const CurrentUser = createContext<User | null>(null);
 
 

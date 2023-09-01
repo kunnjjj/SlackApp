@@ -1,5 +1,5 @@
-import React from 'react';
-import TopNavbar from '../components/topNavbar/TopNavbar'
+import React from 'react'
+import TopNavbar from '../components/topnavbar/TopNavbar'
 import Body from '../components/body/Body'
 import { type User } from '../types/user';
 import UserLogo from '../components/userLogo/UserLogo';
