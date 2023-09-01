@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect, useLayoutEffect } from "react";
 import { Message } from "../../types/message";
 import { User } from "../../types/user";
 import './message-component.css'
@@ -6,6 +6,7 @@ import './message-component.css'
 type Props = {
     message: Message,
     profile?: User,
+    scrollIntoView: boolean,
 }
 
 const getDate = (timestamp: number) => {
@@ -14,15 +15,22 @@ const getDate = (timestamp: number) => {
     return (hours % 12) + ':' + minutes + ' ' + (hours >= 12 ? 'PM' : 'AM');
 }
 
-const MessageComponent = ({ message, profile }: Props) => {
+const MessageComponent = ({ message, profile, scrollIntoView }: Props) => {
 
     const time = useMemo(() => {
         return getDate(message.timestamp)
     }, [message.timestamp]);
     const [hovered, setHovered] = useState(false);
 
-    return (
-        <div style={{ display: "flex", marginTop: '5px', padding: '3px', paddingLeft: '5px' }} className="message">
+    const divRef=useRef<HTMLDivElement|null>(null);
+    useLayoutEffect(()=>{
+        if(divRef.current && scrollIntoView){
+            divRef.current.scrollIntoView({behavior:'smooth'})
+        }
+    });
+
+    return (    
+        <div style={{ display: "flex", marginTop: '5px', padding: '3px', paddingLeft: '5px' }} className="message" ref={divRef}>
             {
                 profile
                     ? (
@@ -37,7 +45,7 @@ const MessageComponent = ({ message, profile }: Props) => {
                     : (
                         <div style={{ display: 'flex', width: '100%', }} className="hover-effect" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
                             <div style={{ width: '40px', display: 'flex', alignItems: 'center', }}>
-                                <span style={{ color: 'gray', fontSize: '10px', minWidth:'max-content'}} className="show-on-hower">{hovered ? time : null}</span>
+                                <span style={{ color: 'gray', fontSize: '10px', minWidth: 'max-content' }} className="show-on-hower">{hovered ? time : null}</span>
                             </div>
                             <div style={{ color: 'black', flexGrow: 1, display: 'flex', marginLeft: '10px' }}>{message.text}</div>
                         </div>

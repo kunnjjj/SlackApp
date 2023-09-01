@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import MessageComponent from '../messageComponent/MessageComponent'
 import { type Message } from "../../types/message"
 import { User } from "../../types/user";
@@ -22,16 +22,17 @@ const getProfile = (message: Message, userList: User[]) => {
 
 const MessageHistory = React.memo(({ messages, userList }: Props) => {
     return (
-        <div style={{ color: 'black', flex: 1, padding: '20px', overflow: 'clip', border: '1px solid black', height: '100%' }}>
+        <div style={{ color: 'black', flex: 1, overflow: 'clip', height: '100%', overflowY: 'scroll' }}>
             {
                 messages.map((message, index) => {
                     if (showMessageWithProfile(message, index, messages)) {
-                        return <MessageComponent message={message} key={message.id} profile={getProfile(message, userList)} />
+                        return <MessageComponent message={message} key={message.id} profile={getProfile(message, userList)} scrollIntoView={index === messages.length - 1} />
                     } else {
-                        return <MessageComponent message={message} key={message.id} />
+                        return <MessageComponent message={message} key={message.id} scrollIntoView={index === messages.length - 1} />
                     }
                 })
             }
+            <div className="scroll-into-view" ></div>
         </div>
     )
 })
