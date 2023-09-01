@@ -1,5 +1,5 @@
 //packages
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 // components
 import MessageWindowUserInput from '../messageWindowUserInput/MessageUserInput';
@@ -23,20 +23,38 @@ type Props = {
 const HOST = 'http://localhost:5000';
 const URL = `${HOST}/api/directmessage`;
 
+const newDay = (currentTimestamp: number, oldTimestamp: number): boolean => {
+    const oldDate = new Date(oldTimestamp);
+    const currentDate = new Date(currentTimestamp);
+    return (oldDate.getDate()) !== (currentDate.getDate()) || (oldDate.getMonth() !== currentDate.getMonth()) || (oldDate.getFullYear() !== currentDate.getFullYear());
+}
+
+const arrangeMessagesByDate = (messages: Message[]) => {
+    return messages.reduce((accumulator: Array<Message[]>, message, index) => {
+        if (index === 0 || newDay(messages[index].timestamp, messages[index - 1].timestamp)) {
+            accumulator.push([]);
+        }
+        accumulator[accumulator.length - 1].push(message);
+        return accumulator;
+    }, []);
+}
+
+
 const MessageWindow = ({ selectedUser, userList }: Props) => {
 
     const currentUserId = useCurrentUser().id;
     const receiverId = selectedUser.id;
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [dateWiseMessages, setDateWiseMessages] = useState<Array<Message[]>>([]);
 
     useEffect(() => {
         let ignore = false;
         fetch(`${URL}/${currentUserId}/${receiverId}`)
             .then(response => response.json())
             .then(messages => {
-                if (!ignore) setMessages(messages)
+                if (!ignore) {
+                    setDateWiseMessages(arrangeMessagesByDate(messages));
+                }
             });
-
         return () => {
             ignore = true;
         }
@@ -55,9 +73,13 @@ const MessageWindow = ({ selectedUser, userList }: Props) => {
         })
             .then((response) => response.json())
             .then((message: Message) => {
-                setMessages(oldMessages => {
+                setDateWiseMessages(oldMessages => {
                     const newMessages = [...oldMessages];
-                    newMessages.push(message);
+                    if (newMessages.length === 0 || newDay(message.timestamp, newMessages[newMessages.length - 1][0].timestamp)) {
+                        newMessages.push([]);
+                    }
+                    newMessages[newMessages.length-1]=[...newMessages[newMessages.length-1]];
+                    newMessages[newMessages.length - 1].push(message);
                     return newMessages;
                 })
             })
@@ -67,7 +89,7 @@ const MessageWindow = ({ selectedUser, userList }: Props) => {
         <div className='direct-messages-window' style={{ color: 'black', display: 'flex', flexDirection: 'column' }}>
             <MessageWindowTitle title={selectedUser.name} icon={selectedUser.icon} />
             <div className="message-window" style={{ display: 'flex', flexDirection: 'column', padding: '15px' }}>
-                <MessageHistory messages={messages} userList={userList} />
+                <MessageHistory dateWiseMessages={dateWiseMessages} userList={userList} />
                 <MessageWindowUserInput onMessageSubmit={messageSubmitHandler} />
             </div>
         </div>

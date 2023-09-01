@@ -44,12 +44,11 @@ const DAYS = [
 
 const isDateToday = (date: Date) => {
     const today = new Date();
-    console.log('today',today);
     const res= (today.getDate() === date.getDate() && today.getMonth() === date.getMonth() && today.getFullYear() === date.getFullYear());
-    console.log(res);
     return res;
 }
-const DateWiseMessages = ({ messages, userList, scrollIntoView }: Props) => {
+
+const DateWiseMessages = React.memo(({ messages, userList, scrollIntoView }: Props) => {
     const date = new Date(messages[0].timestamp);
     const dateText = (isDateToday(date) ? 'Today' : DAYS[date.getDay() - 1] + ', ' + MONTHS[date.getMonth()] + " " + date.getDate());
     return (
@@ -72,6 +71,6 @@ const DateWiseMessages = ({ messages, userList, scrollIntoView }: Props) => {
             </div>
         </div>
     )
-};
+});
 
 export default DateWiseMessages;

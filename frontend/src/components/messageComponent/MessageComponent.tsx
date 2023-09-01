@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useLayoutEffect } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Message } from "../../types/message";
 import { User } from "../../types/user";
 import './message-component.css'
@@ -24,11 +24,11 @@ const MessageComponent = ({ message, profile, scrollIntoView }: Props) => {
     const [hovered, setHovered] = useState(false);
 
     const divRef = useRef<HTMLDivElement | null>(null);
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (divRef.current && scrollIntoView) {
             divRef.current.scrollIntoView({ behavior: 'smooth' })
         }
-    },[scrollIntoView]);
+    }, [scrollIntoView]);
 
     return (
         <div style={{ display: "flex", marginTop: '5px', padding: '7px', paddingLeft: '5px', }} className="message" ref={divRef}>
