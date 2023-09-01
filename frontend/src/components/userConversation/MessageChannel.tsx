@@ -5,17 +5,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
 
 import './message-channel.css'
+import {  useCurrentUser } from "../../contexts/CurrentUser"
 
 type Channel = {
-    name: string,
+    name: 'Channels'|'Direct Messages',
     items: { id: string | number, icon: string | JSX.Element, subcategoryName: string, onClick?: () => void }[],
 }
+
 type Props = {
     channel: Channel,
 }
 
 const MessageChannel = ({ channel }: Props) => {
 
+    const currentUserId=useCurrentUser().id; /* REMOVE LATER WHEN ACTUAL USER LIST IS PROVIDED*/
 
     const [showItems, setShowItems] = useState<boolean>(false);
     const clickHandler = () => setShowItems(showItems => !showItems);
@@ -38,6 +41,7 @@ const MessageChannel = ({ channel }: Props) => {
 
                     }}>
                         {channel.items.map((item) => {
+                            if(channel.name==='Direct Messages' && item.id===currentUserId) return null;
                             return (
                                 <div key={item.id} style={{
                                     display: 'flex', gap: '10px',

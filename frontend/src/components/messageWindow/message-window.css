@@ -1,7 +1,5 @@
 .direct-messages-window{
     height: 100%;
-    background-color: aqua;
-
 }
 .message-window{
     flex-grow: 1;

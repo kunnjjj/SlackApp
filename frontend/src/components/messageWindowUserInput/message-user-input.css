@@ -1,7 +1,12 @@
-.user-form-input:active{
-    border: none;
+.user-form-input:focus-visible{
+    outline: none;
 }
 .user-form-input{
-    border: '1px solid gray';
+    outline: '1px solid gray';
     margin-top: 3px;
+}
+
+.fa-paper-plane{
+    color:black;
+    background-color: green;
 }

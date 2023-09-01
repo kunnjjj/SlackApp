@@ -1,40 +1,41 @@
-import React, { useEffect, useRef } from "react"
-import MessageComponent from '../messageComponent/MessageComponent'
+import React, { useRef } from "react"
 import { type Message } from "../../types/message"
 import { User } from "../../types/user";
-
-// import MessageWithProfile from "../content/main/MessageWithProfile"
-// import MessageWithoutProfile from "../content/main/MessageWithoutProfile"
+import DateWiseMessages from "../messageHistoryDate/DateWiseMessages";
 
 type Props = {
     messages: Message[],
     userList: User[],
 }
 
-const showMessageWithProfile = (message: Message, index: number, messages: Message[]) => {
-    return (index === 0 || message.senderId !== messages[index - 1].senderId);
+const newDay = (currentTimestamp: number, oldTimestamp: number): boolean => {
+    const oldDate = new Date(oldTimestamp);
+    const currentDate = new Date(currentTimestamp);
+    return (oldDate.getDate()) !== (currentDate.getDate()) || (oldDate.getMonth() !== currentDate.getMonth()) || (oldDate.getFullYear() !== currentDate.getFullYear());
 }
 
-const getProfile = (message: Message, userList: User[]) => {
-    /* MEMOIZE TODO */
-    return userList.find(user => user.id === message.senderId);
+const arrangeMessagesByDate = (messages: Message[]) => {
+    return messages.reduce((accumulator: Array<Message[]>, message, index) => {
+        if (index === 0 || newDay(messages[index].timestamp, messages[index - 1].timestamp)) {
+            accumulator.push([]);
+        }
+        accumulator[accumulator.length - 1].push(message);
+        return accumulator;
+    }, []);
 }
 
-const MessageHistory = React.memo(({ messages, userList }: Props) => {
+const MessageHistory = ({ messages, userList }: Props) => {
+
+    const dateWiseMessages = arrangeMessagesByDate(messages);
     return (
-        <div style={{ color: 'black', flex: 1, overflow: 'clip', height: '100%', overflowY: 'scroll' }}>
+        <div style={{ overflow: 'hidden', overflowY: 'scroll' }}>
             {
-                messages.map((message, index) => {
-                    if (showMessageWithProfile(message, index, messages)) {
-                        return <MessageComponent message={message} key={message.id} profile={getProfile(message, userList)} scrollIntoView={index === messages.length - 1} />
-                    } else {
-                        return <MessageComponent message={message} key={message.id} scrollIntoView={index === messages.length - 1} />
-                    }
+                dateWiseMessages.map((messageArray, index) => {
+                    return <DateWiseMessages messages={messageArray} userList={userList} scrollIntoView={index === dateWiseMessages.length - 1} />
                 })
             }
-            <div className="scroll-into-view" ></div>
         </div>
     )
-})
+}
 
 export default MessageHistory

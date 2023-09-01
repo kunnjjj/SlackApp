@@ -12,7 +12,7 @@ import './user-conversations.css'
 
 const GROUP_CHANNEL =
 {
-    name: 'Channels',
+    name: 'Channels' as 'Channels',
     items: [
         {
             id: 0,
@@ -47,7 +47,7 @@ const UserConversations = ({ userList, onUserSelect }: Props) => {
     const groupMessageChannel = GROUP_CHANNEL;
 
     const directMessageChannel = {
-        name: 'Direct Messages',
+        name: 'Direct Messages' as 'Direct Messages',
         items: userList.map((user, index) => {
             return {
                 id: user.id ?? index,

@@ -54,7 +54,7 @@ const MessageWindow = ({ selectedUser, userList }: Props) => {
             }),
         })
             .then((response) => response.json())
-            .then(message => {
+            .then((message: Message) => {
                 setMessages(oldMessages => {
                     const newMessages = [...oldMessages];
                     newMessages.push(message);
