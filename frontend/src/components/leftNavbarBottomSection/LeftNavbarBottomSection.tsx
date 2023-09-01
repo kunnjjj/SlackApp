@@ -12,7 +12,7 @@ type Props = {
     onUserSelect: (newUser: User) => void;
 }
 
-const LeftNavbarBottomSection = ({ userList, onUserSelect }) => {
+const LeftNavbarBottomSection = ({ userList, onUserSelect }: Props) => {
     return (
         <div className="comm-channel-wrapper">
             <UserConversations userList={userList} onUserSelect={onUserSelect} />

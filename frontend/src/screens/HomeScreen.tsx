@@ -9,7 +9,7 @@ import { ChannelNameProvider } from '../contexts/ChannelName';
 const currentUser: User = {
   icon: <UserLogo />,
   name: "Current User",
-  id: '1000',
+  id: '0',
 };
 
 const HomeScreen = () => {

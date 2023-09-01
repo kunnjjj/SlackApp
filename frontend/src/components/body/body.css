@@ -9,16 +9,20 @@
 
 #leftnav-main-seperator{
     width: 10px;
-    left:-5px;
+    margin-left: -5px;
     position: relative;
+    opacity: 0;
+    z-index: 1;
+    border: 1px solid black;
 }
+
 #leftnav-main-seperator:hover{
+    display: initial;
     cursor: ew-resize;
-    left:-5px;
     position: relative;
 }
 
 .content-right{
     flex-grow:1;
-    margin-left:-10px;
+    margin-left:-5px;
 }

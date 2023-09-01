@@ -1,6 +1,5 @@
 import React from 'react';
 import { createContext, useContext } from 'react';
-import { type User } from '../types/user'
 export const LeftNavbarWidth = createContext<number>(400);
 
 

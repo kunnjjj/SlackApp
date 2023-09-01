@@ -1,6 +1,5 @@
 //packages
 import React from 'react'
-import { useContext, } from 'react'
 
 // components
 import MessageChannel from '../userConversation/MessageChannel'
@@ -16,18 +15,22 @@ const GROUP_CHANNEL =
     name: 'Channels',
     items: [
         {
+            id: 0,
             icon: '#',
             subcategoryName: 'classnotes'
         },
         {
+            id: 1,
             icon: '#',
             subcategoryName: 'doubts'
         },
         {
+            id: 2,
             icon: '#',
             subcategoryName: 'general'
         },
         {
+            id: 3,
             icon: '#',
             subcategoryName: 'memes'
         },
@@ -45,9 +48,9 @@ const UserConversations = ({ userList, onUserSelect }: Props) => {
 
     const directMessageChannel = {
         name: 'Direct Messages',
-        items: userList.map(user => {
+        items: userList.map((user, index) => {
             return {
-
+                id: user.id ?? index,
                 icon: user.icon,
                 subcategoryName: user.name,
                 onClick: () => {

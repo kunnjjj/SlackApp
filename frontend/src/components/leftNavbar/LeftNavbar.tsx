@@ -29,20 +29,28 @@ const LeftNavbar = ({ userList, onUserSelect }: Props) => {
         <nav className="left-nav" style={{ width: `${width}px`, }}>
             <div className="left-nav-top">
                 <div className='channel-name-wrapper'>
-                    <div className='hover-effect channel-name'>
-                        <strong>{channelName.toUpperCase()}</strong>
+                    <div className='hover-effect channel-name' style={{
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                        }}>
+                        <strong style={{
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                        }}>{channelName.toUpperCase()}</strong>
                         {'  '}
                         <FontAwesomeIcon icon={faAngleDown} />
                     </div>
                     <div><FontAwesomeIcon icon={faMessage} /></div>
                 </div>
-                <button className='upgrade-btn hover-effect'>Upgrade Plan</button>
+                <button className='upgrade-btn hover-effect' >Upgrade Plan</button>
             </div>
             <div className="left-nav-mid">
                 <LeftNavbarMidSection />
             </div>
             <div className="left-nav-bottom">
-                <LeftNavbarBottomSection userList={userList} onUserSelect={onUserSelect}/>
+                <LeftNavbarBottomSection userList={userList} onUserSelect={onUserSelect} />
             </div>
         </nav >
     )

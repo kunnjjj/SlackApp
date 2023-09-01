@@ -12,8 +12,8 @@ type Props = {
 
 const MessageCategory = ({ category }: Props) => {
     return (
-        <div className='category hover-effect'>
-            {category.icon}
+        <div className='category hover-effect' >
+            <div style={{ width: '20px' }}>{category.icon}</div>
             <div className="category-name">{category.name}</div>
         </div>
     )

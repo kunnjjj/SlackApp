@@ -8,7 +8,7 @@ import './message-channel.css'
 
 type Channel = {
     name: string,
-    items: { icon: string | JSX.Element, subcategoryName: string, onClick?: () => void }[],
+    items: { id: string | number, icon: string | JSX.Element, subcategoryName: string, onClick?: () => void }[],
 }
 type Props = {
     channel: Channel,
@@ -16,29 +16,51 @@ type Props = {
 
 const MessageChannel = ({ channel }: Props) => {
 
-    console.log('channel', channel);
 
     const [showItems, setShowItems] = useState<boolean>(false);
     const clickHandler = () => setShowItems(showItems => !showItems);
     return (
         <div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', }}>
                 <div onClick={clickHandler}><FontAwesomeIcon icon={faChevronRight} className="hover-effect message-channel-row-item message-channel-icon fa-sm" /></div>
-                <div className="message-channel-row-item hover-effect">{channel.name}</div>
+                <div className="message-channel-row-item hover-effect" style={{
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                }}>{channel.name}</div>
             </div>
             {
                 showItems
                     ?
-                    <div style={{ display: 'flex', flexDirection: 'column', }}>
-                        {channel.items.map((item, index) => {
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+
+                    }}>
+                        {channel.items.map((item) => {
                             return (
-                                <div key={index} style={{ display: 'flex', gap: '10px', justifyContent: 'flex-start', padding: '3px', borderRadius: '3px', height: '30px', paddingLeft: '8px' }} className="hover-effect" onClick={item.onClick}>
-                                    <div style={{}}>{item.icon}</div>
-                                    <div>{item.subcategoryName}</div>
+                                <div key={item.id} style={{
+                                    display: 'flex', gap: '10px',
+                                    justifyContent: 'flex-start',
+                                    padding: '5px',
+                                    borderRadius: '3px',
+                                    height: '30px',
+                                    paddingLeft: '8px',
+                                    width: '97%',
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                }} className="hover-effect" onClick={item.onClick}>
+                                    <div >{item.icon}</div>
+                                    <div style={{
+                                        textOverflow: 'ellipsis',
+                                        overflow: 'hidden',
+                                        whiteSpace: 'nowrap',
+                                    }}>{item.subcategoryName}</div>
                                 </div>
                             )
                         })}
-                        <button className='add-btn'> <span style={{ padding: '3px', borderRadius: '3px' }} className="hover-effect">+</span>{'  '} Add {channel.name.toLowerCase()}</button>
+                        <button className='add-btn' style={{ minWidth: 'max-content' }}> <span style={{ padding: '3px', borderRadius: '3px', minWidth: 'max-content' }} className="hover-effect">+</span>{'  '} Add {channel.name.toLowerCase()}</button>
                     </div>
                     : null
             }

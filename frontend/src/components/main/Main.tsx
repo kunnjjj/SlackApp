@@ -6,11 +6,12 @@ import './main.css'
 
 type Props = {
     selectedUser: User;
+    userList: User[];
 }
-const Main = ({ selectedUser }: Props) => {
+const Main = ({ selectedUser, userList }: Props) => {
     return (
         <main id='main'>
-            <MessageWindow selectedUser={selectedUser} />
+            <MessageWindow selectedUser={selectedUser} userList={userList} />
         </main>
     )
 }

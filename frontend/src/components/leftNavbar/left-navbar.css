@@ -38,9 +38,11 @@
     background-color: #3F0E40;
     color: white;
     outline: 1px solid white;
+    min-width: max-content;
 }
 
 .channel-name {
     padding: var(--padding-small, 6px);
     border-radius: 10px;
+    width: max-content;
 }

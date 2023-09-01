@@ -8,7 +8,6 @@ import Main from '../main/Main'
 import UserLogo from '../userLogo/UserLogo'
 
 // contexts
-import { CurrentUserProvider } from '../../contexts/CurrentUser'
 
 // types
 import { type User } from '../../types/user'
@@ -28,34 +27,34 @@ const allUsers: User[] = [
     {
         id: '1',
         name: 'User1',
-        icon: <UserLogo />
+        icon: <UserLogo showStatus={false} />
     },
     {
         id: '2',
         name: 'User2',
-        icon: <UserLogo />
-    },
-    {
-        id: '2',
-        name: 'User3',
-        icon: <UserLogo />
+        icon: <UserLogo showStatus={false} />
     },
     {
         id: '3',
-        name: 'User4',
-        icon: <UserLogo />
+        name: 'User3',
+        icon: <UserLogo showStatus={false} />
     },
     {
         id: '4',
-        name: 'User5',
-        icon: <UserLogo />
+        name: 'User4',
+        icon: <UserLogo showStatus={false} />
+    },
+    {
+        id: '0',
+        name: 'User0',
+        icon: <UserLogo showStatus={false} />
     },
 ]
 
 const Body = () => {
 
     const [width, setWidth] = useState(() => getWidthFromLocalStorage() ?? 400);
-    const [userList, setUserList] = useState(allUsers);
+    const [userList,] = useState(allUsers);
     const [selectedUser, setSelectedUser] = useState<User>(userList[0]);
 
     useEffect(() => {
@@ -74,22 +73,22 @@ const Body = () => {
 
     const mouseUpHandler = () => {
         document.removeEventListener('mousemove', setWidthHandler);
-    }
+    } 
 
     const newUserClickHandler = (newUser: User) => {
         setSelectedUser(newUser);
     }
 
     return (
-            <div className='content'>
-                <LeftNavbarWidthProvider value={width}>
-                    <LeftNavbar userList={userList} onUserSelect={newUserClickHandler} />
-                </LeftNavbarWidthProvider>
-                <div id='leftnav-main-seperator' onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler} ></div>
-                <div className='content-right'>
-                    <Main selectedUser={selectedUser} />
-                </div>
+        <div className='content' onMouseLeave={mouseUpHandler}>
+            <LeftNavbarWidthProvider value={width}>
+                <LeftNavbar userList={userList} onUserSelect={newUserClickHandler} />
+            </LeftNavbarWidthProvider>
+            <div id='leftnav-main-seperator' onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler}></div>
+            <div className='content-right'>
+                <Main selectedUser={selectedUser} userList={userList} />
             </div>
+        </div>
     )
 }
 
