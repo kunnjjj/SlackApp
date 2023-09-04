@@ -1,5 +1,9 @@
 import React from "react"
+import { MessageCategory } from "./messageCategory/MessageCategory"
+import { memo } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons"
+
 import { faComments, faAt, faBook, faBuilding, faFile } from "@fortawesome/free-solid-svg-icons"
 
 const messageCategories = [
@@ -22,6 +26,23 @@ const messageCategories = [
     {
         icon: <FontAwesomeIcon icon={faFile} />,
         name: 'Files'
+    },
+    {
+        icon: <FontAwesomeIcon icon={faEllipsisV} />,
+        name: 'More',
     }
 ]
-export { messageCategories }
+
+const LeftNavbarMidSection = memo(() => {
+    return (
+        <>
+            {
+                messageCategories.map((category, index) => {
+                    return <MessageCategory category={category} key={index} />
+                })
+            }
+        </>
+    )
+})
+
+export { LeftNavbarMidSection };

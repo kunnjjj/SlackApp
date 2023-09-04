@@ -1,10 +1,21 @@
+//Libs
 import React from 'react'
-import TopNavbar from '../components/topnavbar/TopNavbar'
-import Body from '../components/body/Body'
-import { type User } from '../types/user';
-import UserLogo from '../components/userLogo/UserLogo';
+
+//Components
+import { TopNavBar } from '../components/topnavbar';
+import { Body } from '../components';
+
+//Hocs/Contexts
 import { CurrentUserProvider } from '../contexts/CurrentUser';
-import { ChannelNameProvider } from '../contexts/ChannelName';
+
+//Types
+import { User } from '../components/body/types/user';
+
+//Constants
+
+//Logos/Icons
+import { UserLogo } from '../icons/userLogo/UserLogo';
+
 
 const currentUser: User = {
   icon: <UserLogo />,
@@ -13,16 +24,15 @@ const currentUser: User = {
 };
 
 const HomeScreen = () => {
+  const CHANNEL_NAME = 'Sprinklr Frontend'; /* TODO backend*/
   return (
     <>
       <CurrentUserProvider value={currentUser}>
-        <ChannelNameProvider value="Sprinklr Frontend">
-          <TopNavbar />
-          <Body />
-        </ChannelNameProvider>
+        <TopNavBar channelName={CHANNEL_NAME} />
+        <Body channelName={CHANNEL_NAME} />
       </CurrentUserProvider>
     </>
   );
 };
 
-export default HomeScreen;
+export { HomeScreen };

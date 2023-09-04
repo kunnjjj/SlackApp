@@ -1,20 +1,29 @@
+//Libs
 import React from 'react'
 
-import HistoryIcon from './historyIcon/HistoryIcon'
-import SearchBar from './searchBar/SearchBar'
-import UserLogo from '../userLogo/UserLogo'
-import HelpIcon from './helpIcon/HelpIcon'
+//Components
+import { SearchBar } from './components/searchBar/SearchBar';
 
-import './top-navbar.css'
+//Icons
+import { UserLogo } from '../../icons/userLogo/UserLogo'; /* TODO CHANGE USERLOGO FROM ICON TO COMPONENT */
+import { HistoryIcon } from './icons/historyIcon/HistoryIcon';
+import { HelpIcon } from './icons/helpIcon/HelpIcon';
 
-const TopNavbar = () => {
+//Styles
+import './top-nav-bar.css'
+
+type Props = {
+    channelName: string;
+}
+
+const TopNavBar = ({ channelName }: Props) => {
     return (
         <nav className='top-nav'>
             <div className='top-nav-left'>
                 <HistoryIcon />
             </div>
             <div className='top-nav-mid'>
-                <SearchBar />
+                <SearchBar channelName={channelName} />
             </div>
             <div className='top-nav-right'>
                 <HelpIcon />
@@ -24,4 +33,4 @@ const TopNavbar = () => {
     )
 }
 
-export default TopNavbar;
+export { TopNavBar };
