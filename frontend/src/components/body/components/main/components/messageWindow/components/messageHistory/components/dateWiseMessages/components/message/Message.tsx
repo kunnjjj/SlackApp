@@ -1,6 +1,9 @@
 //Libs
 import React, { useState, useMemo, useRef, useEffect } from "react";
 
+//Components
+import { UserLogo } from "../../../../../../../../../../../../icons/userLogo/UserLogo"; /*TODO*/
+
 //Types
 import { Message as MessageType } from '../../../../../../../../../../types/message'; /* TODO */
 import { User } from '../../../../../../../../../../types/user';
@@ -10,7 +13,7 @@ import './message.css'
 
 type Props = {
     message: MessageType,
-    profile?: User,
+    user?: User,
     scrollIntoView: boolean,
 }
 
@@ -23,12 +26,13 @@ const getTimeFromTimeStamp = (timestamp: number) => {
 
 /* TODO STYLES */
 
-const Message = ({ message, profile, scrollIntoView }: Props) => {
+const Message = ({ message, user, scrollIntoView }: Props) => {
 
     const time = useMemo(() => {
         return getTimeFromTimeStamp(message.timestamp)
     }, [message.timestamp]);
     const [hovered, setHovered] = useState(false);
+    const UserProfilePhoto = (user ? <UserLogo user={user} /> : null);
 
     const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
@@ -40,12 +44,12 @@ const Message = ({ message, profile, scrollIntoView }: Props) => {
     return (
         <div style={{ display: "flex", marginTop: '5px', padding: '7px', paddingLeft: '5px', }} className="message" ref={divRef}>
             {
-                profile
+                user
                     ? (
                         <div style={{ display: 'flex', width: '100%', alignItems: 'center' }} className="hover-effect">
-                            <div style={{ height: '40px', width: '40px', display: 'flex', }}>{profile.icon}</div>
+                            <div style={{ height: '40px', width: '40px', display: 'flex', }}>{UserProfilePhoto}</div>
                             <div style={{ flexGrow: '1', marginLeft: '10px' }}>
-                                <div style={{ left: '0px', position: 'relative', display: 'flex', alignItems: 'flex-end' }}><b style={{ color: 'black', }}>{profile.name.toUpperCase()}</b><span style={{ color: 'gray', fontSize: '12px', marginLeft: '5px', marginBottom: '1px' }}>{time}</span></div>
+                                <div style={{ left: '0px', position: 'relative', display: 'flex', alignItems: 'flex-end' }}><b style={{ color: 'black', }}>{user.name.toUpperCase()}</b><span style={{ color: 'gray', fontSize: '12px', marginLeft: '5px', marginBottom: '1px' }}>{time}</span></div>
                                 <div style={{ color: 'black', display: 'flex' }} >{message.text}</div>
                             </div>
                         </div>

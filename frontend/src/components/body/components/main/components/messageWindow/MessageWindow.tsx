@@ -19,17 +19,17 @@ import { Message } from "../../../../types/message";
 //Style
 import './message-window.css'
 import { useMessageSubmitHandler } from "./hooks/useMessageSubmitHandler";
+import { UserLogo } from "../../../../../../icons/userLogo/UserLogo";
 
 type Props = {
     selectedUser: User;
-    userList: User[];
 }
 
 
 const HOST = 'http://localhost:5000';
 const URL = `${HOST}/api/directmessage`;
 
-const MessageWindow = ({ selectedUser, userList }: Props) => {
+const MessageWindow = ({ selectedUser }: Props) => {
 
     const currentUserId = useCurrentUser().id;
     const receiverId = selectedUser.id;
@@ -38,12 +38,13 @@ const MessageWindow = ({ selectedUser, userList }: Props) => {
     useFetchMessages(`${URL}/${currentUserId}/${receiverId}`, setDateWiseMessages);
 
     const messageSubmitHandler = useMessageSubmitHandler(`${URL}/${currentUserId}/${receiverId}`, setDateWiseMessages);
+    const userIcon = <UserLogo user={selectedUser} showStatus={true} />;
 
     return (
         <div className='direct-messages-window' style={{ color: 'black', display: 'flex', flexDirection: 'column' }}>
-            <MessageWindowTitle title={selectedUser.name} icon={selectedUser.icon} />
+            <MessageWindowTitle title={selectedUser.name} icon={userIcon} />
             <div className="message-window" style={{ display: 'flex', flexDirection: 'column', padding: '15px' }}>
-                <MessageHistory dateWiseMessages={dateWiseMessages} userList={userList} />
+                <MessageHistory dateWiseMessages={dateWiseMessages}/>
                 <MessageWindowUserInput onMessageSubmit={messageSubmitHandler} />
             </div>
         </div>

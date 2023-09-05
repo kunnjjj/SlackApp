@@ -4,6 +4,9 @@ import React from 'react'
 //Components
 import { SearchBar } from './components/searchBar/SearchBar';
 
+//Context/ContextHooks
+import { useCurrentUser } from '../../contexts/CurrentUser';
+
 //Icons
 import { UserLogo } from '../../icons/userLogo/UserLogo'; /* TODO CHANGE USERLOGO FROM ICON TO COMPONENT */
 import { HistoryIcon } from './icons/historyIcon/HistoryIcon';
@@ -17,6 +20,7 @@ type Props = {
 }
 
 const TopNavBar = ({ channelName }: Props) => {
+    const currentUser = useCurrentUser();
     return (
         <nav className='top-nav'>
             <div className='top-nav-left'>
@@ -27,7 +31,7 @@ const TopNavBar = ({ channelName }: Props) => {
             </div>
             <div className='top-nav-right'>
                 <HelpIcon />
-                <UserLogo />
+                <UserLogo user={currentUser} />
             </div>
         </nav>
     )

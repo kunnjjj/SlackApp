@@ -3,6 +3,7 @@ import React from 'react'
 
 //Components
 import { MessageChannel } from './userConversation/MessageChannel'
+import { UserLogo } from '../../../../../../icons/userLogo/UserLogo'
 
 //Types
 import { User } from '../../../../types/user'
@@ -51,7 +52,7 @@ const UserConversations = ({ userList, onUserSelect }: Props) => {
         items: userList.map((user, index) => {
             return {
                 id: user.id ?? index,
-                icon: user.icon,
+                icon: (props) => <UserLogo {...props} />,
                 subcategoryName: user.name,
                 onClick: () => {
                     onUserSelect(user);

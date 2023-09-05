@@ -13,7 +13,12 @@ import './message-channel.css'
 
 type Channel = {
     name: 'Channels' | 'Direct Messages',
-    items: { id: string | number, icon: string | JSX.Element, subcategoryName: string, onClick?: () => void }[],
+    items: {
+        id: string | number,
+        icon: string | ((props?: unknown) => JSX.Element),
+        subcategoryName: string,
+        onClick?: () => void
+    }[],
 }
 
 type Props = {
@@ -62,7 +67,7 @@ const MessageChannel = ({ channel }: Props) => {
                                     overflow: 'hidden',
                                     whiteSpace: 'nowrap',
                                 }} className="hover-effect" onClick={item.onClick}>
-                                    <div >{item.icon}</div>
+                                    <div >{typeof item.icon === 'function' ? item.icon() : item.icon}</div>
                                     <div style={{
                                         textOverflow: 'ellipsis',
                                         overflow: 'hidden',

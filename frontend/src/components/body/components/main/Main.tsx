@@ -15,10 +15,10 @@ type Props = {
     userList: User[];
 }
 
-const Main = ({ selectedUser, userList }: Props) => {
+const Main = ({ selectedUser }: Props) => {
     return (
         <main id='main'>
-            <MessageWindow selectedUser={selectedUser} userList={userList} />
+            <MessageWindow selectedUser={selectedUser} />
         </main>
     )
 }

@@ -12,9 +12,6 @@ import { useLocalStorage } from './hooks/useLocalStorage'
 //Types
 import { User } from './types/user'
 
-//Logos/Icons
-import { UserLogo } from '../../icons/userLogo/UserLogo'
-
 //Style
 import './body.css'
 
@@ -23,27 +20,22 @@ const allUsers: User[] = [ /*TODO from backend*/
     {
         id: '1',
         name: 'User1',
-        icon: <UserLogo showStatus={false} />
     },
     {
         id: '2',
         name: 'User2',
-        icon: <UserLogo showStatus={false} />
     },
     {
         id: '3',
         name: 'User3',
-        icon: <UserLogo showStatus={false} />
     },
     {
         id: '4',
         name: 'User4',
-        icon: <UserLogo showStatus={false} />
     },
     {
         id: '0',
         name: 'User0',
-        icon: <UserLogo showStatus={false} />
     },
 ]
 

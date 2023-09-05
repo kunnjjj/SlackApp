@@ -1,33 +1,46 @@
 import React from 'react';
 import { useState } from 'react';
 import './user-logo.css'
+import { User } from '../../components/body/types/user';
 
 enum CurrentStatus {
     ONLINE = 'ONLINE',
     OFFLINE = 'OFFLINE',
     SLEEP = 'SLEEP',
 }
+
 type Props = {
-    showStatus?: true | false,
+    user: User;
+    showStatus?: true | false;
+    style?: {
+        height?: string;
+        width?: string;
+    }
 }
 
-const Online = () => {
-    return <div className='circle online' style={{ backgroundColor: 'green' }}></div>
+const Online = ({ ...props }) => {
+    return <div className='circle online' style={{ backgroundColor: 'green' }} {...props}></div>
 }
 
-const Offline = () => {
-    return <div className='circle offline' style={{ backgroundColor: 'brown' }}></div>
+const Offline = ({ ...props }) => {
+    return <div className='circle offline' style={{ backgroundColor: 'brown' }} {...props}></div>
 }
 
-const UserLogo = ({ showStatus = true }: Props) => {
+const STATUS_VS_COMP = {
+    ONLINE: (props) => <Online {...props} />,
+    OFFLINE: (props) => <Offline {...props} />
+}
+
+const UserLogo = ({ user, showStatus = true, style = { height: '30px', width: '30px' } }: Props) => {
     /*TODO Correct path*/
+
     const [status,] = useState<CurrentStatus>(CurrentStatus.ONLINE);
+    const statusComp = STATUS_VS_COMP[status];
+    const imgSrc = './logo192.png'; // fetchUserImg(user); /*TODO backend*/
 
-
-    const statusComp = (status === CurrentStatus.ONLINE ? <Online /> : <Offline />); /*TODO*/
     return (
-        <div className='user-logo hover-effect' style={{ height: '100%' }}>
-            <img src='./logo192.png' alt="userlogo" />
+        <div className='user-logo hover-effect' style={{ ...style }}>
+            <img src={imgSrc} alt={user.name + 's Photo'} />
             {showStatus ? statusComp : null}
         </div>
     );
