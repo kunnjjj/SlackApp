@@ -12,11 +12,16 @@ const useFetchChannels = (
   userId: UserId,
   setGroupMessageChannel: React.Dispatch<React.SetStateAction<Conversation>>
 ) => {
-  /*TODO ABORT CONTROLLER */
   useEffect(() => {
-    fetch(`${api}/${userId}`)
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetch(`${api}/${userId}`, { signal })
       .then((response) => response.json())
       .then((channel) => setGroupMessageChannel(channel));
+
+    return () => {
+      controller.abort();
+    };
   }, [api, setGroupMessageChannel, userId]);
 };
 

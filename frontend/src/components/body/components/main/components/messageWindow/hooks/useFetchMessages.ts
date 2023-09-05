@@ -6,19 +6,16 @@ const useFetchMessages = (
   url: string,
   setDateWiseMessages: React.Dispatch<React.SetStateAction<Message[][]>>
 ) => {
-  let ignore = false; /* TODO ABORT CONTROLLER */
-
   useEffect(() => {
-    let ignore = false;
-    fetch(url)
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetch(url, { signal })
       .then((response) => response.json())
       .then((messages) => {
-        if (!ignore) {
-          setDateWiseMessages(arrangeMessagesByDate(messages));
-        }
+        setDateWiseMessages(arrangeMessagesByDate(messages));
       });
     return () => {
-      ignore = true;
+      controller.abort();
     };
   }, [url, setDateWiseMessages]);
   // ask if can be removed as it is stable
