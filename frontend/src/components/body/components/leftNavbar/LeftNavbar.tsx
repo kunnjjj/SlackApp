@@ -2,8 +2,8 @@
 import React from 'react';
 
 //Components
-import { LeftNavbarMidSection } from './leftNavbarMidSection/LeftNavbarMidSection';
-import { LeftNavbarBottomSection } from './leftNavbarBottomSection/LeftNavbarBottomSection'
+import { LeftNavbarMidSection } from './components/leftNavbarMidSection/LeftNavbarMidSection';
+import { LeftNavbarBottomSection } from './components/leftNavbarBottomSection/LeftNavbarBottomSection'
 
 //Types
 import { type User } from '../../types/user';

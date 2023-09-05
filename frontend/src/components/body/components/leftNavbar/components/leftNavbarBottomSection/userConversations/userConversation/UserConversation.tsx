@@ -1,29 +1,25 @@
 //Libs
 import React, { useCallback, useMemo, useState } from "react"
 
+//Types
+import { Conversation } from "../types/conversation"
+
 //Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
 
-//Styles
-import './message-channel.css'
 
-type Channel = {
-    name: 'Channels' | 'Direct Messages',
-    items: {
-        id: string | number,
-        icon: string | ((props?: unknown) => JSX.Element),
-        subcategoryName: string,
-        onClick?: () => void
-    }[],
-}
+//Styles
+import './user-conversation.css'
+
+
 
 type Props = {
-    channel: Channel,
+    conversation: Conversation,
 }
 
 /*TODO STYLES IN CSS */
-const MessageChannel = ({ channel }: Props) => {
+const UserConversation = ({ conversation }: Props) => {
 
     const [showItems, setShowItems] = useState<boolean>(false);
 
@@ -39,14 +35,14 @@ const MessageChannel = ({ channel }: Props) => {
     }, [])
 
     return (
-        <div style={{ width: '100%'}}>
+        <div style={{ width: '100%' }}>
             <div style={{ display: 'flex', alignItems: 'center', }}>
                 <div onClick={clickHandler}><FontAwesomeIcon icon={faChevronRight} className="hover-effect message-channel-row-item message-channel-icon fa-sm" /></div>
                 <div className="message-channel-row-item hover-effect" style={{
                     textOverflow: 'ellipsis',
                     overflow: 'hidden',
                     whiteSpace: 'nowrap',
-                }}>{channel.name}</div>
+                }}>{conversation.name}</div>
             </div>
             {
                 showItems
@@ -56,7 +52,7 @@ const MessageChannel = ({ channel }: Props) => {
                         flexDirection: 'column',
                         width: '100%',
                     }}>
-                        {channel.items.map((item) => {
+                        {conversation.items.map((item) => {
                             return (
                                 <div key={item.id} style={{
                                     display: 'flex',
@@ -79,7 +75,7 @@ const MessageChannel = ({ channel }: Props) => {
                                 </div>
                             )
                         })}
-                        <button className='add-btn' style={{ minWidth: 'max-content' }}> <span style={{ padding: '3px', borderRadius: '3px', minWidth: 'max-content' }} className="hover-effect">+</span>{'  '} Add {channel.name.toLowerCase()}</button>
+                        <button className='add-btn' style={{ minWidth: 'max-content' }}> <span style={{ padding: '3px', borderRadius: '3px', minWidth: 'max-content' }} className="hover-effect">+</span>{'  '} Add {conversation.name.toLowerCase()}</button>
                     </div>
                     : null
             }
@@ -87,4 +83,4 @@ const MessageChannel = ({ channel }: Props) => {
     )
 }
 
-export { MessageChannel }
+export { UserConversation }

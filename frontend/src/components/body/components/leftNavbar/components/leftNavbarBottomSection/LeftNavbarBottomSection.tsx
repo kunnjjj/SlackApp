@@ -6,7 +6,7 @@ import { UserConversations } from './userConversations/UserConversations'
 import { HuddleInvitation } from './huddleInvitation/HuddleInvitation'
 
 //Types
-import { User } from '../../../types/user'
+import { User } from '../../../../types/user'
 
 //Styles
 import './left-navbar-bottom-section.css'
