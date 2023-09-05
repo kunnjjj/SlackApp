@@ -1,7 +1,11 @@
-import React from 'react';
-import { useState } from 'react';
-import './user-logo.css'
+//Libs
+import React, { useState } from 'react';
+
+//Type
 import { User } from '../../components/body/types/user';
+
+//Style
+import './user-logo.css'
 
 enum CurrentStatus {
     ONLINE = 'ONLINE',
@@ -19,11 +23,11 @@ type Props = {
 }
 
 const Online = ({ ...props }) => {
-    return <div className='circle online' style={{ backgroundColor: 'green' }} {...props}></div>
+    return <div className='circle online' {...props}></div>
 }
 
 const Offline = ({ ...props }) => {
-    return <div className='circle offline' style={{ backgroundColor: 'brown' }} {...props}></div>
+    return <div className='circle offline' {...props}></div>
 }
 
 const STATUS_VS_COMP = {
@@ -35,12 +39,12 @@ const UserLogo = ({ user, showStatus = true, style = { height: '30px', width: '3
     /*TODO Correct path*/
 
     const [status,] = useState<CurrentStatus>(CurrentStatus.ONLINE);
-    const statusComp = STATUS_VS_COMP[status];
+    const statusComp = STATUS_VS_COMP[status]();
     const imgSrc = './logo192.png'; // fetchUserImg(user); /*TODO backend*/
 
     return (
         <div className='user-logo hover-effect' style={{ ...style }}>
-            <img src={imgSrc} alt={user.name + 's Photo'} />
+            <img src={imgSrc} alt='userlogo' />
             {showStatus ? statusComp : null}
         </div>
     );

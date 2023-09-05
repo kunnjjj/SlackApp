@@ -31,7 +31,7 @@ const URL = `${HOST}/api/directmessage`;
 
 const MessageWindow = ({ selectedUser }: Props) => {
 
-    const currentUserId = useCurrentUser().id;
+    const currentUserId = useCurrentUser()?.id;
     const receiverId = selectedUser.id;
     const [dateWiseMessages, setDateWiseMessages] = useState<Array<Message[]>>([]);
 

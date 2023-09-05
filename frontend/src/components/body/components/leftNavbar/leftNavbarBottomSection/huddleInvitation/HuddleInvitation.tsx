@@ -1,13 +1,7 @@
 import React from "react";
 
-const getWidthFromLocalStorage = () => {
-    const width = localStorage.getItem('width');
-    if (!width) return null;
-    return JSON.parse(width);
-}
-
 const HuddleInvitation = () => {
-    const width = getWidthFromLocalStorage() ?? 400;
+    /* TODO STYLE */
     return (
         <div style={{
             flexGrow: 1, display: 'flex',
@@ -19,10 +13,10 @@ const HuddleInvitation = () => {
             whiteSpace: 'nowrap',
         }} >
             <div style={{
-                padding: '20px', 
-                borderTop: '1px solid gray', 
-                width: `${width}px`, 
-                borderRadius: '10px 10px 0px 0px', 
+                padding: '20px',
+                borderTop: '1px solid gray',
+                width: `100%`,
+                borderRadius: '10px 10px 0px 0px',
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
@@ -30,4 +24,4 @@ const HuddleInvitation = () => {
         </div>
     )
 }
-export  {HuddleInvitation};
+export { HuddleInvitation };

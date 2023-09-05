@@ -1,8 +1,5 @@
 //Libs
-import React, { useState } from "react"
-
-//Context/ContextHooks
-import { useCurrentUser } from "../../../../../../../contexts/CurrentUser"
+import React, { useCallback, useMemo, useState } from "react"
 
 //Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -28,11 +25,18 @@ type Props = {
 /*TODO STYLES IN CSS */
 const MessageChannel = ({ channel }: Props) => {
 
-    const currentUserId = useCurrentUser().id; /* REMOVE LATER WHEN ACTUAL USER LIST IS PROVIDED*/
-
     const [showItems, setShowItems] = useState<boolean>(false);
 
-    const clickHandler = () => setShowItems(showItems => !showItems);
+    const clickHandler = useCallback(() => setShowItems(showItems => !showItems), []);
+
+    const userLogoProps = useMemo(() => {
+        return {
+            style: {
+                height: '20px',
+                width: '20px',
+            }
+        }
+    }, [])
 
     return (
         <div>
@@ -53,7 +57,6 @@ const MessageChannel = ({ channel }: Props) => {
 
                     }}>
                         {channel.items.map((item) => {
-                            if (channel.name === 'Direct Messages' && item.id === currentUserId) return null;
                             return (
                                 <div key={item.id} style={{
                                     display: 'flex', gap: '10px',
@@ -67,7 +70,7 @@ const MessageChannel = ({ channel }: Props) => {
                                     overflow: 'hidden',
                                     whiteSpace: 'nowrap',
                                 }} className="hover-effect" onClick={item.onClick}>
-                                    <div >{typeof item.icon === 'function' ? item.icon() : item.icon}</div>
+                                    <div >{typeof item.icon === 'function' ? item.icon(userLogoProps) : item.icon}</div>
                                     <div style={{
                                         textOverflow: 'ellipsis',
                                         overflow: 'hidden',

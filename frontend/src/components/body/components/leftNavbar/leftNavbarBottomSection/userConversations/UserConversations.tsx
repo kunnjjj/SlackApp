@@ -1,9 +1,12 @@
 //Libs
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 //Components
 import { MessageChannel } from './userConversation/MessageChannel'
 import { UserLogo } from '../../../../../../icons/userLogo/UserLogo'
+
+//Context/ContextHooks
+import { useCurrentUser } from '../../../../../../contexts/CurrentUser'
 
 //Types
 import { User } from '../../../../types/user'
@@ -11,41 +14,26 @@ import { User } from '../../../../types/user'
 //Style
 import './user-conversations.css'
 
-const GROUP_CHANNEL = /*TODO from DB*/
-{
-    name: 'Channels' as 'Channels',
-    items: [
-        {
-            id: 0,
-            icon: '#',
-            subcategoryName: 'classnotes'
-        },
-        {
-            id: 1,
-            icon: '#',
-            subcategoryName: 'doubts'
-        },
-        {
-            id: 2,
-            icon: '#',
-            subcategoryName: 'general'
-        },
-        {
-            id: 3,
-            icon: '#',
-            subcategoryName: 'memes'
-        },
-    ]
-}
-
 type Props = {
     userList: User[];
     onUserSelect: (newUser: User) => void;
 }
 
+const API = `http://localhost:5000/api/channel`
+
 const UserConversations = ({ userList, onUserSelect }: Props) => {
 
-    const groupMessageChannel = GROUP_CHANNEL;
+    const currentUserId = useCurrentUser().id;
+    const [groupMessageChannels, setGroupMessageChannels] = useState({
+        name: 'Channels' as 'Channels',
+        items: [],
+    });
+
+    useEffect(() => {
+        fetch(`${API}/${currentUserId}`)
+            .then(response => response.json())
+            .then(channels => setGroupMessageChannels(channels));
+    }, [currentUserId]);
 
     const directMessageChannel = {
         name: 'Direct Messages' as 'Direct Messages',
@@ -63,7 +51,7 @@ const UserConversations = ({ userList, onUserSelect }: Props) => {
 
     return (
         <div className='message-channel-wrapper'>
-            <div style={{ display: 'flex', flexDirection: 'column' }}><MessageChannel channel={groupMessageChannel} /></div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}><MessageChannel channel={groupMessageChannels} /></div>
             <div style={{ display: 'flex', flexDirection: 'column' }}><MessageChannel channel={directMessageChannel} /></div>
         </div>
     )

@@ -6,8 +6,12 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 import { LeftNavbar } from './components/leftNavbar'
 import { Main } from './components/main'
 
+//Context/ContextHooks
+import { useCurrentUser } from '../../contexts/CurrentUser'
+
 //Hooks
 import { useLocalStorage } from './hooks/useLocalStorage'
+import { useFetchFriends } from './hooks/useFetchFriends'
 
 //Types
 import { User } from './types/user'
@@ -16,70 +20,50 @@ import { User } from './types/user'
 import './body.css'
 
 
-const allUsers: User[] = [ /*TODO from backend*/
-    {
-        id: '1',
-        name: 'User1',
-    },
-    {
-        id: '2',
-        name: 'User2',
-    },
-    {
-        id: '3',
-        name: 'User3',
-    },
-    {
-        id: '4',
-        name: 'User4',
-    },
-    {
-        id: '0',
-        name: 'User0',
-    },
-]
+type Props = {
+    channelName: string;
+}
+const API = `http://localhost:5000/api/user`;
 
-const Body = ({ channelName }) => {
+const Body = ({ channelName }: Props) => {
+
+    const currentUser = useCurrentUser();
+    const currentUserId = currentUser?.id;
 
     const { getItemFromLocalStorage, setItemToLocalStorage } = useLocalStorage('left-navbar-width');
 
     const [leftNavBarWidth, setLeftNavbarWidth] = useState(() => (getItemFromLocalStorage() as number) ?? 400);
 
-    // const [width, setWidth] = useState(() => getWidthFromLocalStorage() ?? 400);
-    const [userList,] = useState(allUsers);
+    const [userList, setUserList] = useState<User[]>([]);
 
-    const [selectedUser, setSelectedUser] = useState<User>(userList[0]);
+    const [selectedUser, setSelectedUser] = useState<User>(currentUser);
 
-    const seperatorRef = useRef<HTMLDivElement | null>(null);
+    const bodyRef = useRef<null | HTMLDivElement>(null);
+
+    useFetchFriends(API, currentUserId, setUserList);
 
     useEffect(() => {
-        setItemToLocalStorage(leftNavBarWidth); /*TODO CHECK IF WORKS*/
-    }, [leftNavBarWidth, setItemToLocalStorage]); // ask
+        setItemToLocalStorage(leftNavBarWidth);
+    }, [leftNavBarWidth, setItemToLocalStorage]);
 
-    const setWidthHandler = useCallback((event: MouseEvent) => {
-        console.log('event happeed');
+    const setWidthHandler = useCallback((event: MouseEvent) => { //ask clientX >=900 case
         setLeftNavbarWidth(event.clientX);
     }, []);
 
     const mouseDownHandler = useCallback(() => {
-        if (!seperatorRef.current) return;
-        console.log('event down');
-        seperatorRef.current.addEventListener('mousemove', setWidthHandler)
+        bodyRef.current?.addEventListener('mousemove', setWidthHandler)
     }, [setWidthHandler])
 
     const mouseUpHandler = useCallback(() => {
-        if (!seperatorRef.current) return;
-        console.log('event up');
-        seperatorRef.current.removeEventListener('mousemove', setWidthHandler);
+        bodyRef.current?.removeEventListener('mousemove', setWidthHandler);
     }, [setWidthHandler])
 
-
     return (
-        <div className='content' onMouseLeave={mouseUpHandler} ref={seperatorRef}>
-            <LeftNavbar channelName={channelName} userList={userList} onUserSelect={setSelectedUser} style={{ width: `${leftNavBarWidth}` }} />
+        <div className='content' ref={bodyRef}>
+            <LeftNavbar channelName={channelName} userList={userList} onUserSelect={setSelectedUser} style={{ width: `${leftNavBarWidth}px` }} />
             <div id='leftnav-main-seperator' onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler} ></div>
             <div className='content-right'>
-                <Main selectedUser={selectedUser} userList={userList} />
+                <Main selectedUser={selectedUser} />
             </div>
         </div>
     )

@@ -8,12 +8,11 @@
 }
 
 #leftnav-main-seperator{
-    width: 20px;
-    margin-left: -5px;
+    width: 10px;
+    margin-left:-5px;
     position: relative;
-    opacity: 0;
+    /* opacity: 0; */
     z-index: 1;
-    border: 1px solid black;
 }
 
 #leftnav-main-seperator:hover{

@@ -32,7 +32,7 @@ const Message = ({ message, user, scrollIntoView }: Props) => {
         return getTimeFromTimeStamp(message.timestamp)
     }, [message.timestamp]);
     const [hovered, setHovered] = useState(false);
-    const UserProfilePhoto = (user ? <UserLogo user={user} /> : null);
+    const UserProfilePhoto = (user ? <UserLogo user={user} showStatus={false} /> : null);
 
     const divRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {

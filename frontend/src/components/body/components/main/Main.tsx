@@ -12,7 +12,6 @@ import './main.css'
 
 type Props = {
     selectedUser: User;
-    userList: User[];
 }
 
 const Main = ({ selectedUser }: Props) => {
