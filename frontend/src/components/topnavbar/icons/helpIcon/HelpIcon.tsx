@@ -1,8 +1,11 @@
+//Libs
 import React from 'react';
 
+//Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
+//Style
 import './help-icon.css'
 
 const HelpIcon = () => {

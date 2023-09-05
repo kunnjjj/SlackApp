@@ -5,7 +5,7 @@ import React from "react"
 import { DateWiseMessages } from "./components/dateWiseMessages/DateWiseMessages";
 
 //Types
-import { Message } from '../../../../../../types/message'; /*TODO*/
+import { Message } from "@/components/body/types/message";
 
 //Styles
 import './message-history.css'

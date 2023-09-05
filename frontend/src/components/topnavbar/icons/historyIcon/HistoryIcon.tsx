@@ -1,9 +1,13 @@
-import './history-icon.css'
+//Libs
+import React from 'react'
 
-
+//Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHistory } from '@fortawesome/free-solid-svg-icons'
-import React from 'react'
+
+//Styles
+import './history-icon.css'
+
 
 const HistoryIcon = () => {
     return <div className="history-icon">

@@ -5,7 +5,7 @@ import React, { useMemo } from "react";
 import { Message } from "./components/message/Message";
 
 //Types
-import { Message as MessageType } from "../../../../../../../../types/message"; /* TODO */
+import { Message as MessageType } from "@/components/body/types/message";
 
 //Constants 
 import { DAYS, MONTHS } from "./constants/daysAndMonths";

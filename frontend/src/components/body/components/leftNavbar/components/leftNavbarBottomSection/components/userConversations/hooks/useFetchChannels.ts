@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 
 //Types
-import { User } from "../../../../../../../types/user"; /*TODO*/
+import { User } from "@/components/body/types/user";
 import { Conversation } from "../types/conversation";
 
 type UserId = User["id"];

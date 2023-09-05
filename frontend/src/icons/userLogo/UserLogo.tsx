@@ -44,7 +44,7 @@ const UserLogo = ({ user, showStatus = true, style = { height: '30px', width: '3
 
     const [status,] = useState<CurrentStatus>(CurrentStatus.ONLINE);
     const statusComp = useMemo(() => STATUS_VS_COMP[status]({ style: statusStyle }), [status, statusStyle]);
-    const imgSrc = useMemo(() => './logo192.png', []); // fetchUserImg(user); /*TODO backend*/
+    const imgSrc = useMemo(() => './logo192.png', []); // fetchUserImg(user); /*LATER backend*/
 
     return (
         <div className='user-logo hover-effect' style={{ ...style }}>

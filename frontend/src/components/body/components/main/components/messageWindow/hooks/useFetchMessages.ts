@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Message } from "../../../../../types/message"; /* TODO */
+import { Message } from "@/components/body/types/message"; 
 import { arrangeMessagesByDate } from "../helpers/arrangeMessagesByDate";
 
 const useFetchMessages = (

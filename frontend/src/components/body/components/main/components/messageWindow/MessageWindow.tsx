@@ -7,21 +7,21 @@ import { MessageHistory } from './components/messageHistory/MessageHistory';
 import { MessageWindowTitle } from './components/messageWindowTitle/MessageWindowTitle';
 
 //Hocs/Contexts/ContextHooks
-import { useCurrentUser } from "../../../../../../contexts/CurrentUser"; /* TODO */
+import { useCurrentUser } from "@/contexts/CurrentUser";
 
 //Hooks
 import { useFetchMessages } from "./hooks/useFetchMessages";
 import { useMessageSubmitHandler } from "./hooks/useMessageSubmitHandler";
 
 //Types
-import { User } from '../../../../types/user';
-import { Message } from "../../../../types/message";
+import { User } from "@/components/body/types/user";
+import { Message } from "@/components/body/types/message";
 
 //Style
 import './message-window.css'
 
 //Icons
-import { UserLogo } from "../../../../../../icons/userLogo/UserLogo";
+import { UserLogo } from '@/icons/userLogo/UserLogo'
 
 type Props = {
     selectedUser: User;
@@ -40,7 +40,7 @@ const MessageWindow = ({ selectedUser }: Props) => {
     useFetchMessages(`${URL}/${currentUserId}/${receiverId}`, setDateWiseMessages);
 
     const messageSubmitHandler = useMessageSubmitHandler(`${URL}/${currentUserId}/${receiverId}`, setDateWiseMessages);
-    const userIcon = <UserLogo user={selectedUser} showStatus={true} statusStyle={{ height: '10px', width: '10px',boxShadow:'0 0 0 2px white' }} />;
+    const userIcon = <UserLogo user={selectedUser} showStatus={true} statusStyle={{ height: '10px', width: '10px', boxShadow: '0 0 0 2px white' }} />;
 
     return (
         <div className='direct-messages-window column-flex'>

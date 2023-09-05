@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 
 //Types
-import { Message } from "../../../../../types/message"; /* TODO */
+import { Message } from "@/components/body/types/message"; 
 
 // Helpers
 import { isCurrentTimestampNewDay } from "../helpers/isCurrentTimestampNewDay";

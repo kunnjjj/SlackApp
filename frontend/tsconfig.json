@@ -6,11 +6,10 @@
     "target": "ES5",
     "sourceMap": true,
     "outDir": "dist",
-    "lib": [
-      "es5", "es6", "dom", "dom.iterable"
-  ]
-  },
-  "include": [
-    "src"
-  ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "lib": ["es5", "es6", "dom", "dom.iterable"]
+  }
 }

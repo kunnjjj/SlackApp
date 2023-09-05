@@ -3,16 +3,16 @@ import React, { useState, useMemo } from 'react'
 
 //Components
 import { UserConversation } from './userConversation/UserConversation'
-import { UserLogo } from '../../../../../../../../icons/userLogo/UserLogo' /*TODO PATH*/
+import { UserLogo } from '@/icons/userLogo/UserLogo'
 
 //Context/ContextHooks
-import { useCurrentUser } from '../../../../../../../../contexts/CurrentUser' /*TODO PATH*/
+import { useCurrentUser } from 'src/contexts/CurrentUser'
 
 //Hooks
 import { useFetchChannels } from './hooks/useFetchChannels'
 
 //Types
-import { User } from '../../../../../../types/user'
+import { User } from '@/components/body/types/user'
 import { Conversation } from './types/conversation'
 
 //Style

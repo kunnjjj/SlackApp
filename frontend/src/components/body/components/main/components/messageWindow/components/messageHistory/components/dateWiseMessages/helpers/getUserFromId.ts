@@ -1,7 +1,7 @@
-import { User } from "../../../../../../../../../types/user"; /*TODO*/
+import { User } from "@/components/body/types/user";
 
 const allUsers: User[] = [
-  /*TODO from backend*/
+  /* LATER from backend*/
   {
     id: "0",
     name: "User0",
@@ -24,8 +24,8 @@ const allUsers: User[] = [
   },
 ];
 
-const getUserFromId = (id: string | number) => { /* TODO */
+const getUserFromId = (id: string | number) => { /* LATER fetch backend */
   return allUsers.find((user) => user.id === id);
 };
 
-export { getUserFromId }
+export { getUserFromId };

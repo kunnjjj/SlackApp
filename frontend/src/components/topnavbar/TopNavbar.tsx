@@ -8,7 +8,7 @@ import { SearchBar } from './components/searchBar/SearchBar';
 import { useCurrentUser } from '../../contexts/CurrentUser';
 
 //Icons
-import { UserLogo } from '../../icons/userLogo/UserLogo'; /* TODO CHANGE USERLOGO FROM ICON TO COMPONENT */
+import { UserLogo } from '../../icons/userLogo/UserLogo'; /* LATER CHANGE USERLOGO FROM ICON TO COMPONENT */
 import { HistoryIcon } from './icons/historyIcon/HistoryIcon';
 import { HelpIcon } from './icons/helpIcon/HelpIcon';
 

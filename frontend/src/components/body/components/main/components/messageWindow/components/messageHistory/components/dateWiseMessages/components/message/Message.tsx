@@ -2,11 +2,11 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 
 //Components
-import { UserLogo } from "../../../../../../../../../../../../icons/userLogo/UserLogo"; /*TODO*/
+import { UserLogo } from '@/icons/userLogo/UserLogo'
 
 //Types
-import { Message as MessageType } from '../../../../../../../../../../types/message'; /* TODO */
-import { User } from '../../../../../../../../../../types/user';
+import { Message as MessageType } from '@/components/body/types/message'
+import { User } from '@/components/body/types/user';
 
 //Styles
 import './message.css'
