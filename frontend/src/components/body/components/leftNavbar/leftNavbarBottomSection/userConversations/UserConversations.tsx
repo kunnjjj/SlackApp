@@ -50,7 +50,7 @@ const UserConversations = ({ userList, onUserSelect }: Props) => {
     }
 
     return (
-        <div className='message-channel-wrapper'>
+        <div className='message-channel-wrapper' style={{ padding: '10px' }}>
             <div style={{ display: 'flex', flexDirection: 'column' }}><MessageChannel channel={groupMessageChannels} /></div>
             <div style={{ display: 'flex', flexDirection: 'column' }}><MessageChannel channel={directMessageChannel} /></div>
         </div>

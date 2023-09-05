@@ -39,7 +39,7 @@ const MessageChannel = ({ channel }: Props) => {
     }, [])
 
     return (
-        <div>
+        <div style={{ width: '100%'}}>
             <div style={{ display: 'flex', alignItems: 'center', }}>
                 <div onClick={clickHandler}><FontAwesomeIcon icon={faChevronRight} className="hover-effect message-channel-row-item message-channel-icon fa-sm" /></div>
                 <div className="message-channel-row-item hover-effect" style={{
@@ -54,18 +54,18 @@ const MessageChannel = ({ channel }: Props) => {
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-
+                        width: '100%',
                     }}>
                         {channel.items.map((item) => {
                             return (
                                 <div key={item.id} style={{
-                                    display: 'flex', gap: '10px',
+                                    display: 'flex',
+                                    gap: '10px',
                                     justifyContent: 'flex-start',
                                     padding: '5px',
                                     borderRadius: '3px',
                                     height: '30px',
                                     paddingLeft: '8px',
-                                    width: '97%',
                                     textOverflow: 'ellipsis',
                                     overflow: 'hidden',
                                     whiteSpace: 'nowrap',
