@@ -29,12 +29,11 @@ const LeftNavbar = ({ channelName, userList, onUserSelect, style }: Props) => {
     const width = style.width ?? '400px';
 
     return (
-        /*TODO STYLES */
         <nav className="left-nav" style={{ width: width, }}>
             <div className="left-nav-top">
                 <div className='channel-name-wrapper'>
                     <div className='hover-effect channel-name truncate'>
-                        <strong className='truncate'>{channelName.toUpperCase()}</strong>
+                        <strong className='truncate white-color'>{channelName.toUpperCase()}</strong>
                         {'  '}
                         <FontAwesomeIcon icon={faAngleDown} />
                     </div>

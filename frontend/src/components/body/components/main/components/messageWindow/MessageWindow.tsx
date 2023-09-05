@@ -40,7 +40,7 @@ const MessageWindow = ({ selectedUser }: Props) => {
     useFetchMessages(`${URL}/${currentUserId}/${receiverId}`, setDateWiseMessages);
 
     const messageSubmitHandler = useMessageSubmitHandler(`${URL}/${currentUserId}/${receiverId}`, setDateWiseMessages);
-    const userIcon = <UserLogo user={selectedUser} showStatus={true} />;
+    const userIcon = <UserLogo user={selectedUser} showStatus={true} statusStyle={{ height: '10px', width: '10px',boxShadow:'0 0 0 2px white' }} />;
 
     return (
         <div className='direct-messages-window column-flex'>

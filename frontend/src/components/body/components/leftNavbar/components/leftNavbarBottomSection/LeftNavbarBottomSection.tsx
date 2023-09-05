@@ -2,8 +2,8 @@
 import React from 'react'
 
 //Components
-import { UserConversations } from './userConversations/UserConversations'
-import { HuddleInvitation } from './huddleInvitation/HuddleInvitation'
+import { UserConversations } from './components/userConversations/UserConversations'
+import { HuddleInvitation } from './components/huddleInvitation/HuddleInvitation'
 
 //Types
 import { User } from '../../../../types/user'

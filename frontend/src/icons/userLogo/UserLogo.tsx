@@ -1,5 +1,5 @@
 //Libs
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 //Type
 import { User } from '../../components/body/types/user';
@@ -19,6 +19,11 @@ type Props = {
     style?: {
         height?: string;
         width?: string;
+    };
+    statusStyle?: {
+        height?: string;
+        width?: string;
+        boxShadow?: string;
     }
 }
 
@@ -35,12 +40,11 @@ const STATUS_VS_COMP = {
     OFFLINE: (props) => <Offline {...props} />
 }
 
-const UserLogo = ({ user, showStatus = true, style = { height: '30px', width: '30px' } }: Props) => {
-    /*TODO Correct path*/
+const UserLogo = ({ user, showStatus = true, style = { height: '30px', width: '30px' }, statusStyle }: Props) => {
 
     const [status,] = useState<CurrentStatus>(CurrentStatus.ONLINE);
-    const statusComp = STATUS_VS_COMP[status]();
-    const imgSrc = './logo192.png'; // fetchUserImg(user); /*TODO backend*/
+    const statusComp = useMemo(() => STATUS_VS_COMP[status]({ style: statusStyle }), [status, statusStyle]);
+    const imgSrc = useMemo(() => './logo192.png', []); // fetchUserImg(user); /*TODO backend*/
 
     return (
         <div className='user-logo hover-effect' style={{ ...style }}>

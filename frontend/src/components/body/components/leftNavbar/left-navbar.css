@@ -2,6 +2,10 @@
     --left-nav-font-color:rgba(255, 255, 255, 0.7);
 }
 
+.white-color{
+    color:white;
+}
+
 .left-nav {
     display: flex;
     flex-direction: column;
