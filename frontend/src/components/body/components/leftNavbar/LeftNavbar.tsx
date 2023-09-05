@@ -33,16 +33,8 @@ const LeftNavbar = ({ channelName, userList, onUserSelect, style }: Props) => {
         <nav className="left-nav" style={{ width: width, }}>
             <div className="left-nav-top">
                 <div className='channel-name-wrapper'>
-                    <div className='hover-effect channel-name' style={{
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                    }}>
-                        <strong style={{
-                            textOverflow: 'ellipsis',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                        }}>{channelName.toUpperCase()}</strong>
+                    <div className='hover-effect channel-name truncate'>
+                        <strong className='truncate'>{channelName.toUpperCase()}</strong>
                         {'  '}
                         <FontAwesomeIcon icon={faAngleDown} />
                     </div>

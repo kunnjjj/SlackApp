@@ -4,9 +4,20 @@
 .user-form-input{
     outline: '1px solid gray';
     margin-top: 3px;
+    height: 60px;
+    flex-grow: 1;
+    border-radius:5px;
+    padding: 10px;
 }
 
 .fa-paper-plane{
     color:black;
     background-color: green;
+}
+
+.message-form{
+    height:60px;
+    flex-grow: 1;
+    border-radius: 5px;
+    padding: 10px;
 }

@@ -24,14 +24,16 @@ const getTimeFromTimeStamp = (timestamp: number) => {
     return (hours % 12) + ':' + minutesInProperFormat + ' ' + (hours >= 12 ? 'PM' : 'AM');
 }
 
-/* TODO STYLES */
 
 const Message = ({ message, user, scrollIntoView }: Props) => {
 
     const time = useMemo(() => {
         return getTimeFromTimeStamp(message.timestamp)
     }, [message.timestamp]);
+
     const [hovered, setHovered] = useState(false);
+
+
     const UserProfilePhoto = (user ? <UserLogo user={user} showStatus={false} /> : null);
 
     const divRef = useRef<HTMLDivElement | null>(null);
@@ -42,24 +44,24 @@ const Message = ({ message, user, scrollIntoView }: Props) => {
     }, [scrollIntoView]);
 
     return (
-        <div style={{ display: "flex", marginTop: '5px', padding: '7px', paddingLeft: '5px', }} className="message" ref={divRef}>
+        <div className="message" ref={divRef}>
             {
                 user
                     ? (
-                        <div style={{ display: 'flex', width: '100%', alignItems: 'center' }} className="hover-effect">
-                            <div style={{ height: '40px', width: '40px', display: 'flex', }}>{UserProfilePhoto}</div>
-                            <div style={{ flexGrow: '1', marginLeft: '10px' }}>
-                                <div style={{ left: '0px', position: 'relative', display: 'flex', alignItems: 'flex-end' }}><b style={{ color: 'black', }}>{user.name.toUpperCase()}</b><span style={{ color: 'gray', fontSize: '12px', marginLeft: '5px', marginBottom: '1px' }}>{time}</span></div>
-                                <div style={{ color: 'black', display: 'flex' }} >{message.text}</div>
+                        <div className="hover-effect flex width100 align-items-center">
+                            <div className="flex message-user-profile">{UserProfilePhoto}</div>
+                            <div className='message-text-wrap'>
+                                <div className="flex message-username"><b className="black-text">{user.name.toUpperCase()}</b><span className="first-message-time">{time}</span></div>
+                                <div className='black-text flex'>{message.text}</div>
                             </div>
                         </div>
                     )
                     : (
-                        <div style={{ display: 'flex', width: '100%', }} className="hover-effect" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-                            <div style={{ width: '40px', display: 'flex', alignItems: 'center', }}>
-                                <span style={{ color: 'gray', fontSize: '10px', minWidth: 'max-content' }} className="show-on-hower">{hovered ? time : null}</span>
+                        <div className="hover-effect flex width100" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+                            <div className="flex message-time-wrap">
+                                <span className="show-on-hower message-time">{hovered ? time : null}</span>
                             </div>
-                            <div style={{ color: 'black', flexGrow: 1, display: 'flex', marginLeft: '10px' }}>{message.text}</div>
+                            <div className='message-text-wrap black-text flex' >{message.text}</div>
                         </div>
                     )
             }

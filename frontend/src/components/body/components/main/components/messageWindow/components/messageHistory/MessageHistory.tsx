@@ -7,13 +7,16 @@ import { DateWiseMessages } from "./components/dateWiseMessages/DateWiseMessages
 //Types
 import { Message } from '../../../../../../types/message'; /*TODO*/
 
+//Styles
+import './message-history.css'
+
 type Props = {
     dateWiseMessages: Array<Message[]>,
 }
 
 const MessageHistory = ({ dateWiseMessages }: Props) => {
     return (
-        <div style={{ overflow: 'hidden', overflowY: 'scroll', height: '100%' }}>
+        <div className='message-history'>
             {
                 dateWiseMessages.map((messageArray, index) => {
                     return <DateWiseMessages key={messageArray[0].id} messages={messageArray} scrollIntoView={index === dateWiseMessages.length - 1} />

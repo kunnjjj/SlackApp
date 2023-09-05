@@ -15,3 +15,6 @@
     overflow:hidden;
     white-space: nowrap;
 }
+.category-icon{
+    flex-basis:20px;
+}

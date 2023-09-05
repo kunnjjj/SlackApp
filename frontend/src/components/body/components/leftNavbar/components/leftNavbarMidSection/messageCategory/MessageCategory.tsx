@@ -1,4 +1,7 @@
+//Libs
 import React from 'react'
+
+//Styles
 import './message-category.css'
 
 type MessageCategoryType = {
@@ -13,8 +16,8 @@ type Props = {
 const MessageCategory = ({ category }: Props) => {
     return (
         <div className='category hover-effect' >
-            <div style={{ width: '20px' }}>{category.icon}</div>
-            <div className="category-name">{category.name}</div>
+            <div className='category-icon text-color' >{category.icon}</div>
+            <div className="category-name text-color">{category.name}</div>
         </div>
     )
 }

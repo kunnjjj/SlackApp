@@ -18,7 +18,6 @@ type Props = {
     conversation: Conversation,
 }
 
-/*TODO STYLES IN CSS */
 const UserConversation = ({ conversation }: Props) => {
 
     const [showItems, setShowItems] = useState<boolean>(false);
@@ -35,47 +34,27 @@ const UserConversation = ({ conversation }: Props) => {
     }, [])
 
     return (
-        <div style={{ width: '100%' }}>
-            <div style={{ display: 'flex', alignItems: 'center', }}>
-                <div onClick={clickHandler}><FontAwesomeIcon icon={faChevronRight} className="hover-effect message-channel-row-item message-channel-icon fa-sm" /></div>
-                <div className="message-channel-row-item hover-effect" style={{
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                }}>{conversation.name}</div>
+        <div className="width100">
+            <div className='conversation-title'>
+                <div onClick={clickHandler} className={(showItems ? 'rotate-me' : '')}><FontAwesomeIcon icon={faChevronRight} className="hover-effect message-channel-row-item message-channel-icon fa-sm text-color"
+                    style={{
+                        // color: 'inheit' //ask
+                    }} /></div>
+                <div className="message-channel-row-item hover-effect truncate text-color" >{conversation.name}</div>
             </div>
             {
                 showItems
                     ?
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '100%',
-                    }}>
+                    <div className='column-flex width100'>
                         {conversation.items.map((item) => {
                             return (
-                                <div key={item.id} style={{
-                                    display: 'flex',
-                                    gap: '10px',
-                                    justifyContent: 'flex-start',
-                                    padding: '5px',
-                                    borderRadius: '3px',
-                                    height: '30px',
-                                    paddingLeft: '8px',
-                                    textOverflow: 'ellipsis',
-                                    overflow: 'hidden',
-                                    whiteSpace: 'nowrap',
-                                }} className="hover-effect" onClick={item.onClick}>
-                                    <div >{typeof item.icon === 'function' ? item.icon(userLogoProps) : item.icon}</div>
-                                    <div style={{
-                                        textOverflow: 'ellipsis',
-                                        overflow: 'hidden',
-                                        whiteSpace: 'nowrap',
-                                    }}>{item.subcategoryName}</div>
+                                <div key={item.id} className="hover-effect conversation-item" onClick={item.onClick}>
+                                    <div className="conversation-icon">{typeof item.icon === 'function' ? item.icon(userLogoProps) : item.icon}</div>
+                                    <div className='truncate'>{item.subcategoryName}</div>
                                 </div>
                             )
                         })}
-                        <button className='add-btn' style={{ minWidth: 'max-content' }}> <span style={{ padding: '3px', borderRadius: '3px', minWidth: 'max-content' }} className="hover-effect">+</span>{'  '} Add {conversation.name.toLowerCase()}</button>
+                        <button className='add-btn truncate text-color' ><span className="hover-effect plus-sign text-color">+</span>{'  '} Add {conversation.name.toLowerCase()}</button>
                     </div>
                     : null
             }

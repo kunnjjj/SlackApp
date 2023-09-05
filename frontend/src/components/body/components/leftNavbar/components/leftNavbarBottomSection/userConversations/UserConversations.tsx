@@ -1,5 +1,5 @@
 //Libs
-import React, {  useState, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 
 //Components
 import { UserConversation } from './userConversation/UserConversation'
@@ -50,9 +50,9 @@ const UserConversations = ({ userList, onUserSelect }: Props) => {
     }), [onUserSelect, userList]);
 
     return (
-        <div className='message-channel-wrapper' style={{ padding: '10px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}><UserConversation conversation={groupMessageChannel} /></div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}><UserConversation conversation={directMessageConversation} /></div>
+        <div className='message-channel-wrapper'>
+            <div className='column-flex'><UserConversation conversation={groupMessageChannel} /></div>
+            <div className='column-flex'><UserConversation conversation={directMessageConversation} /></div>
         </div>
     )
 }
