@@ -1,9 +1,9 @@
-.direct-messages-window{
-    height: 100%;
-    color:black;
+.direct-messages-window {
+  height: 100%;
+  color: black;
 }
-.message-window{
-    flex-grow: 1;
-    overflow-y: hidden;
-    padding:15px;
+.message-window {
+  flex-grow: 1;
+  overflow-y: hidden;
+  padding: 15px;
 }

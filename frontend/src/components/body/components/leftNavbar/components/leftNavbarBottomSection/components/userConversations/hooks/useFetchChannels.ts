@@ -10,7 +10,7 @@ type UserId = User["id"];
 const useFetchChannels = (
   api: string,
   userId: UserId,
-  setGroupMessageChannel: React.Dispatch<React.SetStateAction<Conversation>>
+  setGroupMessageChannel: React.Dispatch<React.SetStateAction<Conversation>>,
 ) => {
   useEffect(() => {
     const controller = new AbortController();

@@ -1,11 +1,11 @@
 //Libs
-import React from 'react';
+import React from "react";
 
 //Components
-import { HomeScreen } from './screens/HomeScreen';
+import { HomeScreen } from "./screens/HomeScreen";
 
 //Styles
-import './App.css';
+import "./App.css";
 
 function App() {
   return (

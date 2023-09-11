@@ -1,19 +1,19 @@
-.date-text-wrapper{
-    position: sticky;
-    top:1px;
-    opacity: 1;
-    z-index: 3;
+.date-text-wrapper {
+  position: sticky;
+  top: 1px;
+  opacity: 1;
+  z-index: 3;
 }
 
-.date-text{
-    color:black;
-    border:1px solid black;
-    width: max-content;
-    margin: 0px auto;
-    padding:5px 10px;
-    border-radius: 99999px;
-    z-index: 1;
-    position: relative;
-    background-color: white;
-    font-size: 12px;
+.date-text {
+  color: black;
+  border: 1px solid black;
+  width: max-content;
+  margin: 0px auto;
+  padding: 5px 10px;
+  border-radius: 99999px;
+  z-index: 1;
+  position: relative;
+  background-color: white;
+  font-size: 12px;
 }

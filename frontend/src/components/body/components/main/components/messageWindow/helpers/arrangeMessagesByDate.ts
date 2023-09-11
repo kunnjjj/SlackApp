@@ -7,7 +7,7 @@ const arrangeMessagesByDate = (messages: Message[]): Array<Message[]> => {
       index === 0 ||
       isCurrentTimestampNewDay(
         messages[index].timestamp,
-        messages[index - 1].timestamp
+        messages[index - 1].timestamp,
       )
     ) {
       accumulator.push([]);

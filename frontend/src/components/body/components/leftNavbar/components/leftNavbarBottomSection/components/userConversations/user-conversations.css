@@ -1,12 +1,11 @@
-.message-channel-wrapper{
-    display: flex;
-    flex-direction: column;
-    gap:20px;
-    padding:10px;
+.message-channel-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
 }
 
-
-.column-flex{
-    display: flex;
-    flex-direction: column;
+.column-flex {
+  display: flex;
+  flex-direction: column;
 }

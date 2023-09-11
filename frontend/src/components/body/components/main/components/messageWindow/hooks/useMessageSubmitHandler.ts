@@ -2,14 +2,14 @@
 import { useCallback } from "react";
 
 //Types
-import { Message } from "@/components/body/types/message"; 
+import { Message } from "@/components/body/types/message";
 
 // Helpers
 import { isCurrentTimestampNewDay } from "../helpers/isCurrentTimestampNewDay";
 
 const useMessageSubmitHandler = (
   url: string,
-  setDateWiseMessages: React.Dispatch<React.SetStateAction<Message[][]>>
+  setDateWiseMessages: React.Dispatch<React.SetStateAction<Message[][]>>,
 ) => {
   const messageSubmitHandler = useCallback(
     (message: string) => {
@@ -31,7 +31,7 @@ const useMessageSubmitHandler = (
               isCurrentTimestampNewDay(
                 message.timestamp,
                 newMessages[newMessages.length - 1][0]
-                  .timestamp /*any message of last row of newMessages array*/
+                  .timestamp /*any message of last row of newMessages array*/,
               )
             ) {
               newMessages.push([]);
@@ -44,7 +44,7 @@ const useMessageSubmitHandler = (
           });
         });
     },
-    [url, setDateWiseMessages]
+    [url, setDateWiseMessages],
   );
   return messageSubmitHandler;
 };

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Message } from "@/components/body/types/message"; 
+import { Message } from "@/components/body/types/message";
 import { arrangeMessagesByDate } from "../helpers/arrangeMessagesByDate";
 
 const useFetchMessages = (
   url: string,
-  setDateWiseMessages: React.Dispatch<React.SetStateAction<Message[][]>>
+  setDateWiseMessages: React.Dispatch<React.SetStateAction<Message[][]>>,
 ) => {
   useEffect(() => {
     const controller = new AbortController();

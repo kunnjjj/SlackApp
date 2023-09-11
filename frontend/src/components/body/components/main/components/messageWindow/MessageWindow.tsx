@@ -1,10 +1,10 @@
 //Libs
-import React, { useState, } from "react";
+import React, { useState } from "react";
 
 //Components
-import { MessageWindowUserInput } from './components/messageWindowUserInput/MessageWindowUserInput';
-import { MessageHistory } from './components/messageHistory/MessageHistory';
-import { MessageWindowTitle } from './components/messageWindowTitle/MessageWindowTitle';
+import { MessageWindowUserInput } from "./components/messageWindowUserInput/MessageWindowUserInput";
+import { MessageHistory } from "./components/messageHistory/MessageHistory";
+import { MessageWindowTitle } from "./components/messageWindowTitle/MessageWindowTitle";
 
 //Hocs/Contexts/ContextHooks
 import { useCurrentUser } from "@/contexts/CurrentUser";
@@ -18,40 +18,55 @@ import { User } from "@/components/body/types/user";
 import { Message } from "@/components/body/types/message";
 
 //Style
-import './message-window.css'
+import "./message-window.css";
 
 //Icons
-import { UserLogo } from '@/icons/userLogo/UserLogo'
+import { UserLogo } from "@/icons/userLogo/UserLogo";
 
 type Props = {
-    selectedUser: User;
-}
+  selectedUser: User;
+};
 
-
-const HOST = 'http://localhost:5000';
+const HOST = "http://localhost:5000";
 const URL = `${HOST}/api/directmessage`;
 
 const MessageWindow = ({ selectedUser }: Props) => {
+  const currentUserId = useCurrentUser()?.id;
+  const receiverId = selectedUser.id;
+  const [dateWiseMessages, setDateWiseMessages] = useState<Array<Message[]>>(
+    [],
+  );
 
-    const currentUserId = useCurrentUser()?.id;
-    const receiverId = selectedUser.id;
-    const [dateWiseMessages, setDateWiseMessages] = useState<Array<Message[]>>([]);
+  useFetchMessages(
+    `${URL}/${currentUserId}/${receiverId}`,
+    setDateWiseMessages,
+  );
 
-    useFetchMessages(`${URL}/${currentUserId}/${receiverId}`, setDateWiseMessages);
+  const messageSubmitHandler = useMessageSubmitHandler(
+    `${URL}/${currentUserId}/${receiverId}`,
+    setDateWiseMessages,
+  );
+  const userIcon = (
+    <UserLogo
+      user={selectedUser}
+      showStatus={true}
+      statusStyle={{
+        height: "10px",
+        width: "10px",
+        boxShadow: "0 0 0 2px white",
+      }}
+    />
+  );
 
-    const messageSubmitHandler = useMessageSubmitHandler(`${URL}/${currentUserId}/${receiverId}`, setDateWiseMessages);
-    const userIcon = <UserLogo user={selectedUser} showStatus={true} statusStyle={{ height: '10px', width: '10px', boxShadow: '0 0 0 2px white' }} />;
-
-    return (
-        <div className='direct-messages-window column-flex'>
-            <MessageWindowTitle title={selectedUser.name} icon={userIcon} />
-            <div className="message-window column-flex">
-                <MessageHistory dateWiseMessages={dateWiseMessages} />
-                <MessageWindowUserInput onMessageSubmit={messageSubmitHandler} />
-            </div>
-        </div>
-    )
-}
-
+  return (
+    <div className="direct-messages-window column-flex">
+      <MessageWindowTitle title={selectedUser.name} icon={userIcon} />
+      <div className="message-window column-flex">
+        <MessageHistory dateWiseMessages={dateWiseMessages} />
+        <MessageWindowUserInput onMessageSubmit={messageSubmitHandler} />
+      </div>
+    </div>
+  );
+};
 
 export { MessageWindow };

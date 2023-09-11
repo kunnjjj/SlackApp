@@ -39,5 +39,4 @@ router.get("/friends/:id", (req, res) => {
   res.send(allUsers);
 });
 
-
 export { router };

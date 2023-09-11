@@ -1,10 +1,10 @@
-.category{
-    display: flex;
-    gap:10px;
-    height:10px;
-    align-items: center;
-    padding:5px;
-    border-radius: 8px;
-    padding:15px 8px;
-    color:#282828;
+.category {
+  display: flex;
+  gap: 10px;
+  height: 10px;
+  align-items: center;
+  padding: 5px;
+  border-radius: 8px;
+  padding: 15px 8px;
+  color: #282828;
 }

@@ -24,7 +24,8 @@ const allUsers: User[] = [
   },
 ];
 
-const getUserFromId = (id: string | number) => { /* LATER fetch backend */
+const getUserFromId = (id: string | number) => {
+  /* LATER fetch backend */
   return allUsers.find((user) => user.id === id);
 };
 

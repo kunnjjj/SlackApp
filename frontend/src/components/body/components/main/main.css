@@ -1,5 +1,5 @@
-#main{
-    height:calc(100vh - var(--top-nav-height,40px));
-    width: 100%;
-    position: relative;
+#main {
+  height: calc(100vh - var(--top-nav-height, 40px));
+  width: 100%;
+  position: relative;
 }

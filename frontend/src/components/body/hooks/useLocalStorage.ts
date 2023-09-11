@@ -14,7 +14,7 @@ const useLocalStorage = (key: unknown) => {
       const stringItem = JSON.stringify(item);
       localStorage.setItem(stringKey, stringItem);
     },
-    [stringKey]
+    [stringKey],
   );
 
   return { getItemFromLocalStorage, setItemToLocalStorage };

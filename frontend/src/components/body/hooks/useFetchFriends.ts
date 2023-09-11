@@ -7,7 +7,7 @@ type UserId = User["id"];
 const useFetchFriends = (
   api: string,
   userId: UserId,
-  setUserList: React.Dispatch<React.SetStateAction<User[]>>
+  setUserList: React.Dispatch<React.SetStateAction<User[]>>,
 ) => {
   useEffect(() => {
     const controller = new AbortController();

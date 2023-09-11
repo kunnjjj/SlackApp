@@ -1,6 +1,6 @@
 const isCurrentTimestampNewDay = (
   currentTimestamp: number,
-  oldTimestamp: number
+  oldTimestamp: number,
 ): boolean => {
   const oldDate = new Date(oldTimestamp);
   const currentDate = new Date(currentTimestamp);

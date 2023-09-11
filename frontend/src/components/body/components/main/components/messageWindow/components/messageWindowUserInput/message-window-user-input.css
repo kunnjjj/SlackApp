@@ -1,42 +1,41 @@
-.user-form-input:focus-visible{
-    outline: none;
+.user-form-input:focus-visible {
+  outline: none;
 }
-.user-form-input{
-    outline: '1px solid gray';
-    margin-top: 3px;
-    height: 60px;
-    flex-grow: 1;
-    border-radius:5px;
-    padding: 10px;
-}
-
-.fa-paper-plane{
-    color:black;
-    background-color: green;
+.user-form-input {
+  outline: "1px solid gray";
+  margin-top: 3px;
+  height: 60px;
+  flex-grow: 1;
+  border-radius: 5px;
+  padding: 10px;
 }
 
-.message-form{
-    height:60px;
-    flex-grow: 1;
-    border-radius: 5px;
-    padding: 10px;
+.fa-paper-plane {
+  color: black;
+  background-color: green;
 }
 
-.send-icon{
-    height:100%;
+.message-form {
+  height: 60px;
+  flex-grow: 1;
+  border-radius: 5px;
+  padding: 10px;
 }
 
-.send-btn{
-    position: relative;
-    overflow: hidden;
-    margin-left:3px;
-    border-radius: 5px;
-    height: 40px;
-    width:40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: gray;
-    opacity: 1;
+.send-icon {
+  height: 100%;
 }
 
+.send-btn {
+  position: relative;
+  overflow: hidden;
+  margin-left: 3px;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+  opacity: 1;
+}

@@ -1,27 +1,27 @@
-.user-logo img{
-    height: 100%;
-    width: 100%;
+.user-logo img {
+  height: 100%;
+  width: 100%;
 }
-.user-logo{
-    border-radius: 5px;
-    position: relative;
-    background-color: white;
-}
-
-.circle{
-    height: 40%;
-    width: 40%;
-    border-radius: 50000px;
-    position: absolute;
-    bottom:1px;
-    right:-5px;
-    box-shadow: 0 0 0 2px #350d36;
+.user-logo {
+  border-radius: 5px;
+  position: relative;
+  background-color: white;
 }
 
-.online{
-    background-color: green;
+.circle {
+  height: 40%;
+  width: 40%;
+  border-radius: 50000px;
+  position: absolute;
+  bottom: 1px;
+  right: -5px;
+  box-shadow: 0 0 0 2px #350d36;
 }
 
-.offline{
-    background-color: brown;
+.online {
+  background-color: green;
+}
+
+.offline {
+  background-color: brown;
 }
