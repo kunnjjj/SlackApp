@@ -1,20 +1,22 @@
 //Libs
 import React from "react";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useState, useRef } from "react";
 
 //Components
 import { LeftNavbar } from "./components/leftNavbar";
 import { Main } from "./components/main";
+import { Error } from "../error/Error";
+import { Loading } from "../loading/Loading";
 
 //Context/ContextHooks
 import { useCurrentUser } from "../../contexts/CurrentUser";
 
 //Hooks
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import { useFetchFriends } from "./hooks/useFetchFriends";
+import { useQuery } from "./hooks/useQuery";
 
 //Types
-import { User } from "./types/user";
+import { User, UserId } from "./types/user";
 
 //Style
 import "./body.css";
@@ -22,35 +24,35 @@ import "./body.css";
 type Props = {
   channelName: string;
 };
+
+type State = {
+  data?: User[];
+  error?: any;
+  loading?: boolean;
+};
+
 const API = `http://localhost:5000/api/user`;
 
 const Body = ({ channelName }: Props) => {
   const currentUser = useCurrentUser();
   const currentUserId = currentUser?.id;
+  const [state] = useQuery(`${API}/friends/${currentUserId}`, []);
+  const { data: userList, error, loading }: State = state;
+  const [selectedUserId, setSelectedUserId] = useState<UserId>(currentUserId);
+  const selectedUser =
+    userList?.find((user) => user.id === selectedUserId) ?? currentUser;
 
-  const { getItemFromLocalStorage, setItemToLocalStorage } =
+  const [leftNavbarWidth, setLeftNavbarWidth] =
     useLocalStorage("left-navbar-width");
-
-  const [leftNavBarWidth, setLeftNavbarWidth] = useState(
-    () => (getItemFromLocalStorage() as number) ?? 400,
-  );
-
-  const [userList, setUserList] = useState<User[]>([]);
-
-  const [selectedUser, setSelectedUser] = useState<User>(currentUser);
-
   const bodyRef = useRef<null | HTMLDivElement>(null);
 
-  useFetchFriends(API, currentUserId, setUserList);
-
-  useEffect(() => {
-    setItemToLocalStorage(leftNavBarWidth);
-  }, [leftNavBarWidth, setItemToLocalStorage]);
-
-  const setWidthHandler = useCallback((event: MouseEvent) => {
-    //ask clientX >=900 case
-    setLeftNavbarWidth(event.clientX);
-  }, []);
+  const setWidthHandler = useCallback(
+    (event: MouseEvent) => {
+      //ask clientX >=900 case
+      setLeftNavbarWidth(event.clientX);
+    },
+    [setLeftNavbarWidth]
+  );
 
   const mouseDownHandler = useCallback(() => {
     bodyRef.current?.addEventListener("mousemove", setWidthHandler);
@@ -60,13 +62,21 @@ const Body = ({ channelName }: Props) => {
     bodyRef.current?.removeEventListener("mousemove", setWidthHandler);
   }, [setWidthHandler]);
 
+  if (error) {
+    return <Error message={JSON.stringify(error)} />;
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="content" ref={bodyRef}>
       <LeftNavbar
         channelName={channelName}
         userList={userList}
-        onUserSelect={setSelectedUser}
-        style={{ width: `${leftNavBarWidth}px` }}
+        onUserSelect={setSelectedUserId}
+        style={{ width: `${leftNavbarWidth}px` }}
       />
       <div
         id="leftnav-main-seperator"

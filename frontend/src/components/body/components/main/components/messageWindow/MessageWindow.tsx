@@ -1,5 +1,5 @@
 //Libs
-import React, { useState } from "react";
+import React from "react";
 
 //Components
 import { MessageWindowUserInput } from "./components/messageWindowUserInput/MessageWindowUserInput";
@@ -10,8 +10,8 @@ import { MessageWindowTitle } from "./components/messageWindowTitle/MessageWindo
 import { useCurrentUser } from "@/contexts/CurrentUser";
 
 //Hooks
-import { useFetchMessages } from "./hooks/useFetchMessages";
 import { useMessageSubmitHandler } from "./hooks/useMessageSubmitHandler";
+import { useQuery } from "@/components/body/hooks/useQuery";
 
 //Types
 import { User } from "@/components/body/types/user";
@@ -21,10 +21,19 @@ import { Message } from "@/components/body/types/message";
 import "./message-window.css";
 
 //Icons
-import { UserLogo } from "@/icons/userLogo/UserLogo";
+import { UserLogo } from "@/components/userLogo/UserLogo";
+import { arrangeMessagesByDate } from "./helpers/arrangeMessagesByDate";
+import { Error } from "@/components/error/Error";
+import { Loading } from "@/components/loading/Loading";
 
 type Props = {
   selectedUser: User;
+};
+
+type State = {
+  data?: Message[][];
+  error?: any;
+  loading?: boolean;
 };
 
 const HOST = "http://localhost:5000";
@@ -32,20 +41,33 @@ const URL = `${HOST}/api/directmessage`;
 
 const MessageWindow = ({ selectedUser }: Props) => {
   const currentUserId = useCurrentUser()?.id;
-  const receiverId = selectedUser.id;
-  const [dateWiseMessages, setDateWiseMessages] = useState<Array<Message[]>>(
+  const receiverId = selectedUser?.id;
+
+  const [state, setState] = useQuery(
+    `${URL}/${currentUserId}/${receiverId}`,
     [],
+    arrangeMessagesByDate
   );
 
-  useFetchMessages(
-    `${URL}/${currentUserId}/${receiverId}`,
-    setDateWiseMessages,
-  );
+  // [
+  //   mess1,mess2,mess3.....
+  // ]
+  const arrangedByDate=arrangeMessagesByDate(state.data);
+
+  // [
+  //   [dat1...] -> 
+  //   [dat2...]
+  //   [dat3..]
+  //   [..., newMessage]
+  // ]
+
+  const { data: dateWiseMessages, error, loading }: State = state;
 
   const messageSubmitHandler = useMessageSubmitHandler(
     `${URL}/${currentUserId}/${receiverId}`,
-    setDateWiseMessages,
+    setState
   );
+
   const userIcon = (
     <UserLogo
       user={selectedUser}
@@ -57,6 +79,14 @@ const MessageWindow = ({ selectedUser }: Props) => {
       }}
     />
   );
+
+  if (error) {
+    return <Error message={error} />;
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="direct-messages-window column-flex">

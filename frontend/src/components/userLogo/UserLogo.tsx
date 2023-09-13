@@ -2,7 +2,7 @@
 import React, { useState, useMemo } from "react";
 
 //Type
-import { User } from "../../components/body/types/user";
+import { User } from "../body/types/user";
 
 //Style
 import "./user-logo.css";
@@ -49,7 +49,7 @@ const UserLogo = ({
   const [status] = useState<CurrentStatus>(CurrentStatus.ONLINE);
   const statusComp = useMemo(
     () => STATUS_VS_COMP[status]({ style: statusStyle }),
-    [status, statusStyle],
+    [status, statusStyle]
   );
   const imgSrc = useMemo(() => "./logo192.png", []); // fetchUserImg(user); /*LATER backend*/
 

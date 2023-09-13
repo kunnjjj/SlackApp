@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 
 //Components
 import { TopNavBar } from "../components/topnavbar";
-import { Body } from "../components";
+import { Body } from "../components/body/Body";
 
 //Hocs/Contexts
 import { CurrentUserProvider } from "../contexts/CurrentUser";

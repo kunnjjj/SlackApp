@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 
 //Components
-import { UserLogo } from "@/icons/userLogo/UserLogo";
+import { UserLogo } from "@/components/userLogo/UserLogo";
 
 //Types
 import { Message as MessageType } from "@/components/body/types/message";

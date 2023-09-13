@@ -6,14 +6,14 @@ import { UserConversations } from "./components/userConversations/UserConversati
 import { HuddleInvitation } from "./components/huddleInvitation/HuddleInvitation";
 
 //Types
-import { User } from "../../../../types/user";
+import { User, UserId } from "../../../../types/user";
 
 //Styles
 import "./left-navbar-bottom-section.css";
 
 type Props = {
   userList: User[];
-  onUserSelect: (newUser: User) => void;
+  onUserSelect: React.Dispatch<React.SetStateAction<UserId>>;
 };
 
 const LeftNavbarBottomSection = ({ userList, onUserSelect }: Props) => {

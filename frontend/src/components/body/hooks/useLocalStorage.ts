@@ -1,23 +1,21 @@
-import { useCallback } from "react";
+import {  useEffect, useState } from "react";
 
-const useLocalStorage = (key: unknown) => {
-  const stringKey = JSON.stringify(key);
+const getItemFromLocalStorage = (key): number => {
+  const item = localStorage.getItem(key);
+  if (!item) return null;
+  return JSON.parse(item);
+};
 
-  const getItemFromLocalStorage = useCallback((): unknown => {
-    const item = localStorage.getItem(stringKey);
-    if (!item) return null;
-    return JSON.parse(item);
-  }, [stringKey]);
+const useLocalStorage = (
+  key: string
+): [number, React.Dispatch<React.SetStateAction<number>>] => {
+  const [item, setItem] = useState(() => getItemFromLocalStorage(key) ?? 400);
 
-  const setItemToLocalStorage = useCallback(
-    (item: unknown) => {
-      const stringItem = JSON.stringify(item);
-      localStorage.setItem(stringKey, stringItem);
-    },
-    [stringKey],
-  );
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(item));
+  }, [item, key]);
 
-  return { getItemFromLocalStorage, setItemToLocalStorage };
+  return [item, setItem];
 };
 
 export { useLocalStorage };

@@ -17,7 +17,7 @@ type Props = {
 const MessageHistory = ({ dateWiseMessages }: Props) => {
   return (
     <div className="message-history">
-      {dateWiseMessages.map((messageArray, index) => {
+      {dateWiseMessages?.map((messageArray, index) => {
         return (
           <DateWiseMessages
             key={messageArray[0].id}

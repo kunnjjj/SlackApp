@@ -7,9 +7,15 @@ import { Message } from "@/components/body/types/message";
 // Helpers
 import { isCurrentTimestampNewDay } from "../helpers/isCurrentTimestampNewDay";
 
+type State = {
+  data: Message[][];
+  error: any;
+  loading: boolean;
+};
+
 const useMessageSubmitHandler = (
   url: string,
-  setDateWiseMessages: React.Dispatch<React.SetStateAction<Message[][]>>,
+  onSuccess: React.Dispatch<React.SetStateAction<State>>
 ) => {
   const messageSubmitHandler = useCallback(
     (message: string) => {
@@ -24,27 +30,36 @@ const useMessageSubmitHandler = (
       })
         .then((response) => response.json())
         .then((message: Message) => {
-          setDateWiseMessages((oldMessages) => {
-            const newMessages = [...oldMessages];
+          onSuccess((state) => {
+            const oldDateWiseMessages = state.data;
+            const newDateWiseMessages = [...oldDateWiseMessages];
+
             if (
-              newMessages.length === 0 ||
+              newDateWiseMessages.length === 0 ||
               isCurrentTimestampNewDay(
                 message.timestamp,
-                newMessages[newMessages.length - 1][0]
-                  .timestamp /*any message of last row of newMessages array*/,
+                newDateWiseMessages[newDateWiseMessages.length - 1][0]
+                  .timestamp /*any message of last row of newDateWiseMessages array*/
               )
             ) {
-              newMessages.push([]);
+              newDateWiseMessages.push([]);
             }
-            newMessages[newMessages.length - 1] = [
-              ...newMessages[newMessages.length - 1],
+
+            newDateWiseMessages[newDateWiseMessages.length - 1] = [
+              ...newDateWiseMessages[newDateWiseMessages.length - 1],
+              message,
             ];
-            newMessages[newMessages.length - 1].push(message);
-            return newMessages;
+
+            const newState = {
+              ...state,
+              data: newDateWiseMessages,
+            };
+
+            return newState;
           });
         });
     },
-    [url, setDateWiseMessages],
+    [url, onSuccess]
   );
   return messageSubmitHandler;
 };

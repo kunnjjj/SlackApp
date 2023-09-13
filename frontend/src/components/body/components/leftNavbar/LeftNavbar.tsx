@@ -6,7 +6,7 @@ import { LeftNavbarMidSection } from "./components/leftNavbarMidSection/LeftNavb
 import { LeftNavbarBottomSection } from "./components/leftNavbarBottomSection/LeftNavbarBottomSection";
 
 //Types
-import { type User } from "../../types/user";
+import { UserId, type User } from "../../types/user";
 
 //Logos/Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,7 @@ import "./left-navbar.css";
 type Props = {
   channelName: string;
   userList: User[];
-  onUserSelect: (newUser: User) => void;
+  onUserSelect:  React.Dispatch<React.SetStateAction<UserId>>;
   style: {
     width?: string;
   };

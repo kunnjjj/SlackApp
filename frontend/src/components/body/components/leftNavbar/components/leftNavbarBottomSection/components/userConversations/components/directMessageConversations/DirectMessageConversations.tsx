@@ -2,25 +2,25 @@
 import React, { useCallback, useMemo, useState } from "react";
 
 //Types
-import { Conversation } from "../types/conversation";
+import { Conversation } from "../../types/conversation";
 
 //Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 //Styles
-import "./user-conversation.css";
+import "./direct-message-conversation.css";
 
 type Props = {
   conversation: Conversation;
 };
 
-const UserConversation = ({ conversation }: Props) => {
+const DirectMessageConversations = ({ conversation }: Props) => {
   const [showItems, setShowItems] = useState<boolean>(false);
 
   const clickHandler = useCallback(
     () => setShowItems((showItems) => !showItems),
-    [],
+    []
   );
 
   const userLogoProps = useMemo(() => {
@@ -78,4 +78,4 @@ const UserConversation = ({ conversation }: Props) => {
   );
 };
 
-export { UserConversation };
+export { DirectMessageConversations };

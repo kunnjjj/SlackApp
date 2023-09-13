@@ -2,15 +2,13 @@
 import { useEffect } from "react";
 
 //Types
-import { User } from "@/components/body/types/user";
+import { UserId } from "@/components/body/types/user";
 import { Conversation } from "../types/conversation";
-
-type UserId = User["id"];
 
 const useFetchChannels = (
   api: string,
   userId: UserId,
-  setGroupMessageChannel: React.Dispatch<React.SetStateAction<Conversation>>,
+  setGroupMessageChannel: React.Dispatch<React.SetStateAction<Conversation>>
 ) => {
   useEffect(() => {
     const controller = new AbortController();
