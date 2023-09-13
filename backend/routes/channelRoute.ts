@@ -31,7 +31,7 @@ const router = express.Router();
 
 router.get("/:userId", (req, res) => {
   //   const { id } = req.params; // later message can be fetched according to user
-  res.send(GROUP_CHANNEL);
+  res.send(GROUP_CHANNEL.items);
 });
 
 export { router };

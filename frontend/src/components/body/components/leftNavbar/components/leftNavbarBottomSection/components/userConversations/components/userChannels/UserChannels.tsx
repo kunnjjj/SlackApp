@@ -1,5 +1,5 @@
 //Libs
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 //Types
 
@@ -23,13 +23,15 @@ const UserChannels = () => {
 
   const currentUserId = useCurrentUser().id;
 
-  const { data, error, loading } = useQuery(`${API}/${currentUserId}`, {
-    items: [],
-  });
-  const channels = useMemo(() => data.items, [data]);
+  const {
+    data: channels,
+    error,
+    loading,
+  } = useQuery(`${API}/${currentUserId}`);
+  // const channels = useMemo(() => data.items, [data]);
 
   if (error) {
-    return <Error message={JSON.stringify(error)} />;
+    return <Error error={error} />;
   }
 
   if (loading) {
@@ -59,14 +61,14 @@ const UserChannels = () => {
       </div>
       {showItems ? (
         <div className="column-flex width100">
-          {channels.items.map((item, index) => {
+          {channels.map((channel, index) => {
             return (
               <div
-                key={item.id ?? index}
+                key={channel?.id ?? index}
                 className="hover-effect conversation-item"
               >
                 <div className="conversation-icon">{HASH_ICON}</div>
-                <div className="truncate">{item.subcategoryName}</div>
+                <div className="truncate">{channel.subcategoryName}</div>
               </div>
             );
           })}

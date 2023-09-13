@@ -1,10 +1,12 @@
 //Libs
-import React, { useEffect, useState } from "react";
+import React, {  useMemo } from "react";
 
 //Components
 import { MessageWindowUserInput } from "./components/messageWindowUserInput/MessageWindowUserInput";
 import { MessageHistory } from "./components/messageHistory/MessageHistory";
 import { MessageWindowTitle } from "./components/messageWindowTitle/MessageWindowTitle";
+import { Error } from "@/components/error/Error";
+import { Loading } from "@/components/loading/Loading";
 
 //Hocs/Contexts/ContextHooks
 import { useCurrentUser } from "@/contexts/CurrentUser";
@@ -20,10 +22,7 @@ import { User } from "@/components/body/types/user";
 import "./message-window.css";
 
 //Icons
-import { UserLogo } from "@/components/userLogo/UserLogo";
 import { arrangeMessagesByDate } from "./helpers/arrangeMessagesByDate";
-import { Error } from "@/components/error/Error";
-import { Loading } from "@/components/loading/Loading";
 
 type Props = {
   selectedUser: User;
@@ -36,48 +35,38 @@ const MessageWindow = ({ selectedUser }: Props) => {
   const currentUserId = useCurrentUser()?.id;
   const receiverId = selectedUser?.id;
 
-  const { data, error, loading } = useQuery(
+  const {
+    data,
+    error,
+    loading,
+    refetchDataFromServer: refetchMessages,
+  } = useQuery(`${URL}/${currentUserId}/${receiverId}`);
+
+  const dateWiseMessages = useMemo(() => arrangeMessagesByDate(data), [data]);
+
+  const {
+    messageSubmitHandler,
+    error: errorWhileSendingMessage,
+    loading: loadingWhileSubmitting,
+  } = useMessageSubmitHandler(
     `${URL}/${currentUserId}/${receiverId}`,
-    []
+    refetchMessages
   );
 
-  const [dateWiseMessages, setDateWiseMessages] = useState([]);
-
-  useEffect(() => {
-    const updateDateWiseMessages = () => {
-      setDateWiseMessages(arrangeMessagesByDate(data));
-    };
-    updateDateWiseMessages();
-  }, [data]);
-
-  const messageSubmitHandler = useMessageSubmitHandler(
-    `${URL}/${currentUserId}/${receiverId}`,
-    setDateWiseMessages
-  );
-
-  const userIcon = (
-    <UserLogo
-      user={selectedUser}
-      showStatus={true}
-      statusStyle={{
-        height: "10px",
-        width: "10px",
-        boxShadow: "0 0 0 2px white",
-      }}
-    />
-  );
-
-  if (error) {
-    return <Error message={error} />;
+  if (error || errorWhileSendingMessage) {
+    return <Error error={error || errorWhileSendingMessage} />;
   }
 
-  if (loading) {
+  if (loading || loadingWhileSubmitting) {
     return <Loading />;
   }
 
   return (
     <div className="direct-messages-window column-flex">
-      <MessageWindowTitle title={selectedUser.name} icon={userIcon} />
+      <MessageWindowTitle
+        title={selectedUser.name}
+        selectedUser={selectedUser}
+      />
       <div className="message-window column-flex">
         <MessageHistory dateWiseMessages={dateWiseMessages} />
         <MessageWindowUserInput onMessageSubmit={messageSubmitHandler} />

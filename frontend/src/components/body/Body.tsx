@@ -40,7 +40,7 @@ const Body = ({ channelName }: Props) => {
     data: userList,
     error,
     loading,
-  }: State = useQuery(`${API}/friends/${currentUserId}`, []);
+  }: State = useQuery(`${API}/friends/${currentUserId}`);
   const [selectedUserId, setSelectedUserId] = useState<UserId>(currentUserId);
   const selectedUser =
     userList?.find((user) => user.id === selectedUserId) ?? currentUser;
@@ -66,7 +66,7 @@ const Body = ({ channelName }: Props) => {
   }, [setWidthHandler]);
 
   if (error) {
-    return <Error message={JSON.stringify(error)} />;
+    return <Error error={JSON.stringify(error)} />;
   }
 
   if (loading) {

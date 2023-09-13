@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 type State = {
   data?: any;
@@ -6,40 +6,47 @@ type State = {
   loading?: boolean;
 };
 
-const useQuery = (api: string, initialValue?: any): State => {
+const useQuery = (api: string) => {
   const [state, setState] = useState<State>({
-    data: initialValue,
+    
   });
 
-  useEffect(() => {
-    setState((prevState) => ({
-      ...prevState,
-      error: null,
-      loading: true,
-    }));
+  const fetchQuery = useCallback(
+    (controller?: AbortController) => {
+      setState((prevState) => ({
+        data: undefined,
+        error: null,
+        loading: true,
+      }));
 
-    const controller = new AbortController();
-
-    fetch(api, { signal: controller.signal })
-      .then((response) => response.json())
-      .then((data) => {
-        setState({
-          data,
-          loading: false,
-          error: null,
+      fetch(api, { signal: controller?.signal })
+        .then((response) => response.json())
+        .then((data) => {
+          setState({
+            data,
+            loading: false,
+            error: null,
+          });
+        })
+        .catch((err) => {
+          setState({
+            data: undefined,
+            error: err,
+            loading: false,
+          });
         });
-      })
-      .catch((err) => {
-        setState((prevState) => ({
-          ...prevState,
-          error: err,
-          loading: false,
-        }));
-      });
+    },
+    [api]
+  );
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchQuery(controller);
     return () => {
       controller.abort();
     };
-  }, [api]);
-  return state;
+  }, [api, fetchQuery]);
+
+  return { ...state, refetchDataFromServer: fetchQuery };
 };
 export { useQuery };

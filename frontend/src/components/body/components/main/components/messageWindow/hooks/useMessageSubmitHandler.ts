@@ -1,52 +1,61 @@
 //Libs
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import isSameDay from "date-fns/isSameDay";
 
 //Types
 import { Message } from "@/components/body/types/message";
 
 // Helpers
 import { mutationEvent } from "../helpers/mutationEvent";
-import { isCurrentTimestampNewDay } from "../helpers/isCurrentTimestampNewDay";
 
-const useMessageSubmitHandler = (
-  url: string,
-  onSuccess: React.Dispatch<React.SetStateAction<Message[][]>>
-) => {
-  const messageSubmitHandler = useCallback(
-    (messageText: string) => {
-      mutationEvent(url, {
-        body: JSON.stringify({
-          text: messageText,
-        }),
+type State = {
+  loading?: boolean;
+  error?: any;
+};
+const useMutation = (url: string) => {
+  const [state, setState] = useState<State>();
+
+  const mutate = (requestBody: any) => {
+    return new Promise((resolve, reject) => {
+      setState({
+        loading: true,
+        error: null,
+      });
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify(requestBody),
       })
-        .then((message: Message) => {
-          onSuccess((oldDateWiseMessages) => {
-            const newDateWiseMessages = [...oldDateWiseMessages];
-            if (
-              newDateWiseMessages.length === 0 ||
-              isCurrentTimestampNewDay(
-                message.timestamp,
-                newDateWiseMessages[newDateWiseMessages.length - 1][0]
-                  .timestamp /*any message of last row of newDateWiseMessages array*/
-              )
-            ) {
-              newDateWiseMessages.push([]);
-            }
-
-            newDateWiseMessages[newDateWiseMessages.length - 1] = [
-              ...newDateWiseMessages[newDateWiseMessages.length - 1],
-              message,
-            ];
-            return newDateWiseMessages;
-          });
+        .then((response) => response.json())
+        .then((data) => {
+          setState({ error: null, loading: false });
+          resolve(data);
         })
         .catch((err) => {
-          console.error("error found", err);
+          setState({ loading: false, error: err });
+          reject(err);
         });
-    },
-    [onSuccess, url]
-  );
-  return messageSubmitHandler;
+    });
+  };
+  return { ...state, mutate };
 };
 
-export { useMessageSubmitHandler };
+const useMessageSubmitHandler = (url: string, onSuccess: () => void) => {
+  const { mutate, error, loading } = useMutation(url);
+
+  const messageSubmitHandler = useCallback(
+    (messageText: string) => {
+      mutate({ text: messageText }).then(() => {
+        onSuccess();
+      });
+    },
+    [mutate, onSuccess]
+  );
+
+  return { messageSubmitHandler, error, loading };
+};
+
+export { useMessageSubmitHandler, useMutation };
