@@ -1,8 +1,7 @@
 //Libs
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 //Types
-import { Conversation } from "../../types/conversation";
 
 //Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,32 +9,40 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 //Styles
 import "./user-channels.css";
+import { useCurrentUser } from "@/contexts/CurrentUser";
+import { useQuery } from "@/components/body/hooks/useQuery";
+import { Error } from "@/components/error/Error";
+import { Loading } from "@/components/loading/Loading";
 
-type Props = {
-  conversation: Conversation;
-};
+const HASH_ICON = "#";
+const API = `http://localhost:5000/api/channel`;
+const TITLE = "Channels";
 
-const UserChannels = ({ conversation }: Props) => {
+const UserChannels = () => {
   const [showItems, setShowItems] = useState<boolean>(false);
 
-  const clickHandler = useCallback(
-    () => setShowItems((showItems) => !showItems),
-    []
-  );
+  const currentUserId = useCurrentUser().id;
 
-  const userLogoProps = useMemo(() => {
-    return {
-      style: {
-        height: "20px",
-        width: "20px",
-      },
-    };
-  }, []);
+  const { data, error, loading } = useQuery(`${API}/${currentUserId}`, {
+    items: [],
+  });
+  const channels = useMemo(() => data.items, [data]);
+
+  if (error) {
+    return <Error message={JSON.stringify(error)} />;
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="width100">
       <div className="conversation-title">
-        <div onClick={clickHandler} className={showItems ? "rotate-me" : ""}>
+        <div
+          onClick={() => setShowItems((showItems) => !showItems)}
+          className={showItems ? "rotate-me" : ""}
+        >
           <FontAwesomeIcon
             icon={faChevronRight}
             className="hover-effect message-channel-row-item message-channel-icon fa-sm text-color"
@@ -47,30 +54,25 @@ const UserChannels = ({ conversation }: Props) => {
           />
         </div>
         <div className="message-channel-row-item hover-effect truncate text-color">
-          {conversation.name}
+          {TITLE}
         </div>
       </div>
       {showItems ? (
         <div className="column-flex width100">
-          {conversation.items.map((item) => {
+          {channels.items.map((item, index) => {
             return (
               <div
-                key={item.id}
+                key={item.id ?? index}
                 className="hover-effect conversation-item"
-                onClick={item.onClick}
               >
-                <div className="conversation-icon">
-                  {typeof item.icon === "function"
-                    ? item.icon(userLogoProps)
-                    : item.icon}
-                </div>
+                <div className="conversation-icon">{HASH_ICON}</div>
                 <div className="truncate">{item.subcategoryName}</div>
               </div>
             );
           })}
           <button className="add-btn truncate text-color">
             <span className="hover-effect plus-sign text-color">+</span>
-            {"  "} Add {conversation.name.toLowerCase()}
+            {"  "} Add {TITLE.toLowerCase()}
           </button>
         </div>
       ) : null}

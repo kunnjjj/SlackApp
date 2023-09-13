@@ -36,8 +36,11 @@ const API = `http://localhost:5000/api/user`;
 const Body = ({ channelName }: Props) => {
   const currentUser = useCurrentUser();
   const currentUserId = currentUser?.id;
-  const [state] = useQuery(`${API}/friends/${currentUserId}`, []);
-  const { data: userList, error, loading }: State = state;
+  const {
+    data: userList,
+    error,
+    loading,
+  }: State = useQuery(`${API}/friends/${currentUserId}`, []);
   const [selectedUserId, setSelectedUserId] = useState<UserId>(currentUserId);
   const selectedUser =
     userList?.find((user) => user.id === selectedUserId) ?? currentUser;

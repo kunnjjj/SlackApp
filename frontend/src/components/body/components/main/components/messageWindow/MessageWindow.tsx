@@ -1,5 +1,5 @@
 //Libs
-import React from "react";
+import React, { useState } from "react";
 
 //Components
 import { MessageWindowUserInput } from "./components/messageWindowUserInput/MessageWindowUserInput";
@@ -15,7 +15,6 @@ import { useQuery } from "@/components/body/hooks/useQuery";
 
 //Types
 import { User } from "@/components/body/types/user";
-import { Message } from "@/components/body/types/message";
 
 //Style
 import "./message-window.css";
@@ -30,12 +29,6 @@ type Props = {
   selectedUser: User;
 };
 
-type State = {
-  data?: Message[][];
-  error?: any;
-  loading?: boolean;
-};
-
 const HOST = "http://localhost:5000";
 const URL = `${HOST}/api/directmessage`;
 
@@ -43,29 +36,19 @@ const MessageWindow = ({ selectedUser }: Props) => {
   const currentUserId = useCurrentUser()?.id;
   const receiverId = selectedUser?.id;
 
-  const [state, setState] = useQuery(
+  const { data, error, loading } = useQuery(
     `${URL}/${currentUserId}/${receiverId}`,
-    [],
-    arrangeMessagesByDate
+    []
   );
 
-  // [
-  //   mess1,mess2,mess3.....
-  // ]
-  const arrangedByDate=arrangeMessagesByDate(state.data);
-
-  // [
-  //   [dat1...] -> 
-  //   [dat2...]
-  //   [dat3..]
-  //   [..., newMessage]
-  // ]
-
-  const { data: dateWiseMessages, error, loading }: State = state;
+  const [dateWiseMessages, setDateWiseMessages] = useState(() =>
+    //ASK TODAY
+    arrangeMessagesByDate(data)
+  );
 
   const messageSubmitHandler = useMessageSubmitHandler(
     `${URL}/${currentUserId}/${receiverId}`,
-    setState
+    setDateWiseMessages
   );
 
   const userIcon = (

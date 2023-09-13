@@ -6,13 +6,7 @@ type State = {
   loading?: boolean;
 };
 
-const DEFAULT_TRANSFORMATION = (val) => val;
-
-const useQuery = (
-  api: string,
-  initialValue?: any,
-  dataTransformationFn = DEFAULT_TRANSFORMATION
-): [State, React.Dispatch<React.SetStateAction<State>>] => {
+const useQuery = (api: string, initialValue?: any): State => {
   const [state, setState] = useState<State>({
     data: initialValue,
   });
@@ -26,21 +20,18 @@ const useQuery = (
 
     const controller = new AbortController();
 
-    fetch(api /* { signal: controller.signal } */)
+    fetch(api, { signal: controller.signal })
       .then((response) => response.json())
       .then((data) => {
-        const transformedData = dataTransformationFn(data);
-        setState((state) => ({
-          ...state,
+        setState({
+          data,
           loading: false,
           error: null,
-          data: transformedData,
-        }));
+        });
       })
-
       .catch((err) => {
-        setState((state) => ({
-          ...state,
+        setState((prevState) => ({
+          ...prevState,
           error: err,
           loading: false,
         }));
@@ -48,8 +39,7 @@ const useQuery = (
     return () => {
       controller.abort();
     };
-  }, [api, dataTransformationFn]);
-
-  return [state, setState];
+  }, [api]);
+  return state;
 };
 export { useQuery };

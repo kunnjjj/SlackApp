@@ -5,35 +5,23 @@ import { useCallback } from "react";
 import { Message } from "@/components/body/types/message";
 
 // Helpers
+import { mutationEvent } from "../helpers/mutationEvent";
 import { isCurrentTimestampNewDay } from "../helpers/isCurrentTimestampNewDay";
-
-type State = {
-  data: Message[][];
-  error: any;
-  loading: boolean;
-};
 
 const useMessageSubmitHandler = (
   url: string,
-  onSuccess: React.Dispatch<React.SetStateAction<State>>
+  onSuccess: React.Dispatch<React.SetStateAction<Message[][]>>
 ) => {
   const messageSubmitHandler = useCallback(
-    (message: string) => {
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
+    (messageText: string) => {
+      mutationEvent(url, {
         body: JSON.stringify({
-          text: message,
+          text: messageText,
         }),
       })
-        .then((response) => response.json())
         .then((message: Message) => {
-          onSuccess((state) => {
-            const oldDateWiseMessages = state.data;
+          onSuccess((oldDateWiseMessages) => {
             const newDateWiseMessages = [...oldDateWiseMessages];
-
             if (
               newDateWiseMessages.length === 0 ||
               isCurrentTimestampNewDay(
@@ -49,17 +37,14 @@ const useMessageSubmitHandler = (
               ...newDateWiseMessages[newDateWiseMessages.length - 1],
               message,
             ];
-
-            const newState = {
-              ...state,
-              data: newDateWiseMessages,
-            };
-
-            return newState;
+            return newDateWiseMessages;
           });
+        })
+        .catch((err) => {
+          console.error("error found", err);
         });
     },
-    [url, onSuccess]
+    [onSuccess, url]
   );
   return messageSubmitHandler;
 };

@@ -1,8 +1,8 @@
 //Libs
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 //Types
-import { Conversation } from "../../types/conversation";
+import { User, UserId } from "@/components/body/types/user";
 
 //Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,27 +10,22 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 //Styles
 import "./direct-message-conversation.css";
+import { UserLogo } from "@/components/userLogo/UserLogo";
 
 type Props = {
-  conversation: Conversation;
+  userList: User[];
+  onUserSelect: React.Dispatch<React.SetStateAction<UserId>>;
 };
 
-const DirectMessageConversations = ({ conversation }: Props) => {
+const TITLE = "Direct Messages";
+
+const DirectMessageConversations = ({ userList, onUserSelect }: Props) => {
   const [showItems, setShowItems] = useState<boolean>(false);
 
   const clickHandler = useCallback(
     () => setShowItems((showItems) => !showItems),
     []
   );
-
-  const userLogoProps = useMemo(() => {
-    return {
-      style: {
-        height: "20px",
-        width: "20px",
-      },
-    };
-  }, []);
 
   return (
     <div className="width100">
@@ -47,30 +42,36 @@ const DirectMessageConversations = ({ conversation }: Props) => {
           />
         </div>
         <div className="message-channel-row-item hover-effect truncate text-color">
-          {conversation.name}
+          {TITLE}
         </div>
       </div>
       {showItems ? (
         <div className="column-flex width100">
-          {conversation.items.map((item) => {
+          {userList.map((user) => {
             return (
               <div
-                key={item.id}
+                key={user.id}
                 className="hover-effect conversation-item"
-                onClick={item.onClick}
+                onClick={() => {
+                  onUserSelect(user.id);
+                }}
               >
                 <div className="conversation-icon">
-                  {typeof item.icon === "function"
-                    ? item.icon(userLogoProps)
-                    : item.icon}
+                  <UserLogo
+                    user={user}
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                    }}
+                  />
                 </div>
-                <div className="truncate">{item.subcategoryName}</div>
+                <div className="truncate">{user.name}</div>
               </div>
             );
           })}
           <button className="add-btn truncate text-color">
             <span className="hover-effect plus-sign text-color">+</span>
-            {"  "} Add {conversation.name.toLowerCase()}
+            {"  "} Add {TITLE.toLowerCase()}
           </button>
         </div>
       ) : null}
