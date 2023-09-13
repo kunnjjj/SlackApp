@@ -1,5 +1,5 @@
 //Libs
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //Components
 import { MessageWindowUserInput } from "./components/messageWindowUserInput/MessageWindowUserInput";
@@ -41,10 +41,14 @@ const MessageWindow = ({ selectedUser }: Props) => {
     []
   );
 
-  const [dateWiseMessages, setDateWiseMessages] = useState(() =>
-    //ASK TODAY
-    arrangeMessagesByDate(data)
-  );
+  const [dateWiseMessages, setDateWiseMessages] = useState([]);
+
+  useEffect(() => {
+    const updateDateWiseMessages = () => {
+      setDateWiseMessages(arrangeMessagesByDate(data));
+    };
+    updateDateWiseMessages();
+  }, [data]);
 
   const messageSubmitHandler = useMessageSubmitHandler(
     `${URL}/${currentUserId}/${receiverId}`,

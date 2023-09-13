@@ -36,9 +36,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.get("/friends/:id", (req, res) => {
-  setTimeout(() => {
     res.send(allUsers);
-  }, 2000);
 });
 
 export { router };

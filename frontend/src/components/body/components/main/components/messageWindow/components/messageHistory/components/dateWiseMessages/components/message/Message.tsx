@@ -1,5 +1,6 @@
 //Libs
 import React, { useState, useMemo, useRef, useEffect } from "react";
+import format from 'date-fns/format'
 
 //Components
 import { UserLogo } from "@/components/userLogo/UserLogo";
@@ -18,16 +19,10 @@ type Props = {
 };
 
 const getTimeFromTimeStamp = (timestamp: number) => {
-  const hours = new Date(timestamp).getHours();
-  const minutes = "" + new Date(timestamp).getMinutes();
-  const minutesInProperFormat = minutes.length === 2 ? minutes : "0" + minutes;
-  return (
-    (hours % 12) +
-    ":" +
-    minutesInProperFormat +
-    " " +
-    (hours >= 12 ? "PM" : "AM")
-  );
+  const hours=format(timestamp,'hh');
+  const minutes=format(timestamp,'m');
+  const AM_OR_PM=format(timestamp,'aaa').toUpperCase();
+  return hours + ':' + minutes + " " + AM_OR_PM;
 };
 
 const Message = ({ message, user, scrollIntoView }: Props) => {

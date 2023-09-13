@@ -1,14 +1,13 @@
 //Libs
 import React, { useMemo } from "react";
+import isSameDay from "date-fns/isSameDay";
+import format from "date-fns/format";
 
 //Components
 import { Message } from "./components/message/Message";
 
 //Types
 import { Message as MessageType } from "@/components/body/types/message";
-
-//Constants
-import { DAYS, MONTHS } from "./constants/daysAndMonths";
 
 //Helpers
 import { getUserFromId } from "./helpers/getUserFromId";
@@ -19,7 +18,7 @@ import "./date-wise-messages.css";
 const showMessageWithProfile = (
   currentMessage: MessageType,
   previousMessage: MessageType | null,
-  isFirstMessage: boolean = false,
+  isFirstMessage: boolean = false
 ) => {
   return (
     isFirstMessage || currentMessage.senderId !== previousMessage?.senderId
@@ -31,28 +30,18 @@ type Props = {
   scrollIntoView: boolean;
 };
 
-const isDateToday = (date: Date) => {
-  const today = new Date();
-  const res =
-    today.getDate() === date.getDate() &&
-    today.getMonth() === date.getMonth() &&
-    today.getFullYear() === date.getFullYear();
-  return res;
-};
 
 const DateWiseMessages = React.memo(({ messages, scrollIntoView }: Props) => {
   const date = useMemo(() => new Date(messages[0].timestamp), [messages]);
-  const dateText = useMemo(
-    () =>
-      isDateToday(date)
-        ? "Today"
-        : DAYS[date.getDay() - 1] +
+  const dateText = useMemo(() => {
+    return isSameDay(new Date(), date)
+      ? "Today"
+      : format(date, "EEEE") +
           ", " +
-          MONTHS[date.getMonth()] +
+          format(date, "MMMM") +
           " " +
-          date.getDate(),
-    [date],
-  );
+          format(date, "d");
+  }, [date]);
 
   return (
     <div>
@@ -67,7 +56,7 @@ const DateWiseMessages = React.memo(({ messages, scrollIntoView }: Props) => {
             showMessageWithProfile(
               message,
               index - 1 >= 0 ? messages[index - 1] : null,
-              index === 0,
+              index === 0
             )
           ) {
             return (
