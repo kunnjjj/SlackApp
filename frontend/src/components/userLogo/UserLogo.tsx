@@ -1,35 +1,63 @@
-import React from 'react';
-import { useState } from 'react';
-import './user-logo.css'
+//Libs
+import React, { useState, useMemo } from "react";
+
+//Type
+import { User } from "../body/types/user";
+
+//Style
+import "./user-logo.css";
 
 enum CurrentStatus {
-    ONLINE = 'ONLINE',
-    OFFLINE = 'OFFLINE',
-    SLEEP = 'SLEEP',
+  ONLINE = "ONLINE",
+  OFFLINE = "OFFLINE",
+  SLEEP = "SLEEP",
 }
+
 type Props = {
-    showStatus?: true | false,
-}
+  user: User;
+  showStatus?: true | false;
+  style?: {
+    height?: string;
+    width?: string;
+  };
+  statusStyle?: {
+    height?: string;
+    width?: string;
+    boxShadow?: string;
+  };
+};
 
-const Online = () => {
-    return <div className='circle online' style={{ backgroundColor: 'green' }}></div>
-}
+const Online = ({ ...props }) => {
+  return <div className="circle online" {...props}></div>;
+};
 
-const Offline = () => {
-    return <div className='circle offline' style={{ backgroundColor: 'brown' }}></div>
-}
+const Offline = ({ ...props }) => {
+  return <div className="circle offline" {...props}></div>;
+};
 
-const UserLogo = ({ showStatus = true }: Props) => {
-    /*TODO Correct path*/
-    const [status,] = useState<CurrentStatus>(CurrentStatus.ONLINE);
+const STATUS_VS_COMP = {
+  ONLINE: (props) => <Online {...props} />,
+  OFFLINE: (props) => <Offline {...props} />,
+};
 
+const UserLogo = ({
+  user,
+  showStatus = true,
+  style = { height: "30px", width: "30px" },
+  statusStyle,
+}: Props) => {
+  const [status] = useState<CurrentStatus>(CurrentStatus.ONLINE);
+  const statusComp = useMemo(
+    () => STATUS_VS_COMP[status]({ style: statusStyle }),
+    [status, statusStyle]
+  );
+  const imgSrc = useMemo(() => "./logo192.png", []); // fetchUserImg(user); /*LATER backend*/
 
-    const statusComp = (status === CurrentStatus.ONLINE ? <Online /> : <Offline />); /*TODO*/
-    return (
-        <div className='user-logo hover-effect' style={{ height: '100%' }}>
-            <img src='./logo192.png' alt="userlogo" />
-            {showStatus ? statusComp : null}
-        </div>
-    );
-}
-export default UserLogo
+  return (
+    <div className="user-logo hover-effect" style={{ ...style }}>
+      <img src={imgSrc} alt="userlogo" />
+      {showStatus ? statusComp : null}
+    </div>
+  );
+};
+export { UserLogo };

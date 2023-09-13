@@ -1,95 +1,96 @@
-// packages
-import React from 'react'
-import { useCallback, useEffect, useState } from 'react'
+//Libs
+import React from "react";
+import { useCallback, useState, useRef } from "react";
 
-// components
-import LeftNavbar from './leftNavbar/LeftNavbar'
-import Main from './main/Main'
-import UserLogo from '../userLogo/UserLogo'
+//Components
+import { LeftNavbar } from "./components/leftNavbar";
+import { Main } from "./components/main";
+import { Error } from "../error/Error";
+import { Loading } from "../loading/Loading";
 
-// contexts
+//Context/ContextHooks
+import { useCurrentUser } from "../../contexts/CurrentUser";
 
-// types
-import { type User } from './types/user'
+//Hooks
+import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useQuery } from "./hooks/useQuery";
 
-// styles
-import './body.css'
-import { LeftNavbarWidthProvider } from '../../contexts/LeftNavbarWidth'
+//Types
+import { User, UserId } from "./types/user";
 
+//Style
+import "./body.css";
 
-const getWidthFromLocalStorage = () => {
-    const item = localStorage.getItem('width');
-    if (!item) return null;
-    return JSON.parse(item);
-}
+type Props = {
+  channelName: string;
+};
 
-const allUsers: User[] = [
-    {
-        id: '1',
-        name: 'User1',
-        icon: <UserLogo showStatus={false} />
+type State = {
+  data?: User[];
+  error?: any;
+  loading?: boolean;
+};
+
+const API = `http://localhost:5000/api/user`;
+
+const Body = ({ channelName }: Props) => {
+  const currentUser = useCurrentUser();
+  const currentUserId = currentUser?.id;
+  const {
+    data: userList,
+    error,
+    loading,
+  }: State = useQuery(`${API}/friends/${currentUserId}`);
+  const [selectedUserId, setSelectedUserId] = useState<UserId>(currentUserId);
+  const selectedUser =
+    userList?.find((user) => user.id === selectedUserId) ?? currentUser;
+
+  const [leftNavbarWidth, setLeftNavbarWidth] =
+    useLocalStorage("left-navbar-width");
+  const bodyRef = useRef<null | HTMLDivElement>(null);
+
+  const setWidthHandler = useCallback(
+    (event: MouseEvent) => {
+      //ask clientX >=900 case
+      setLeftNavbarWidth(event.clientX);
     },
-    {
-        id: '2',
-        name: 'User2',
-        icon: <UserLogo showStatus={false} />
-    },
-    {
-        id: '3',
-        name: 'User3',
-        icon: <UserLogo showStatus={false} />
-    },
-    {
-        id: '4',
-        name: 'User4',
-        icon: <UserLogo showStatus={false} />
-    },
-    {
-        id: '0',
-        name: 'User0',
-        icon: <UserLogo showStatus={false} />
-    },
-]
+    [setLeftNavbarWidth]
+  );
 
-const Body = () => {
+  const mouseDownHandler = useCallback(() => {
+    bodyRef.current?.addEventListener("mousemove", setWidthHandler);
+  }, [setWidthHandler]);
 
-    const [width, setWidth] = useState(() => getWidthFromLocalStorage() ?? 400);
-    const [userList,] = useState(allUsers);
-    const [selectedUser, setSelectedUser] = useState<User>(userList[0]);
+  const mouseUpHandler = useCallback(() => {
+    bodyRef.current?.removeEventListener("mousemove", setWidthHandler);
+  }, [setWidthHandler]);
 
-    useEffect(() => {
-        return () => {
-            localStorage.setItem('width', JSON.stringify(width));
-        }
-    }, [width])
+  if (error) {
+    return <Error error={JSON.stringify(error)} />;
+  }
 
-    const setWidthHandler = useCallback((event: MouseEvent) => {
-        setWidth(event.clientX);
-    }, []);
+  if (loading) {
+    return <Loading />;
+  }
 
-    const mouseDownHandler = () => {
-        document.addEventListener('mousemove', setWidthHandler)
-    }
+  return (
+    <div className="content" ref={bodyRef}>
+      <LeftNavbar
+        channelName={channelName}
+        userList={userList}
+        onUserSelect={setSelectedUserId}
+        style={{ width: `${leftNavbarWidth}px` }}
+      />
+      <div
+        id="leftnav-main-seperator"
+        onMouseDown={mouseDownHandler}
+        onMouseUp={mouseUpHandler}
+      ></div>
+      <div className="content-right">
+        <Main selectedUser={selectedUser} />
+      </div>
+    </div>
+  );
+};
 
-    const mouseUpHandler = () => {
-        document.removeEventListener('mousemove', setWidthHandler);
-    }
-
-    const newUserClickHandler = (newUser: User) => {
-        setSelectedUser(newUser);
-    }
-
-    return (
-        <div className='content' onMouseLeave={mouseUpHandler}>
-            <LeftNavbarWidthProvider value={width}>
-                <LeftNavbar userList={userList} onUserSelect={newUserClickHandler} />
-            </LeftNavbarWidthProvider>
-            <div id='leftnav-main-seperator' onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler}></div>
-            <div className='content-right'>
-                <Main selectedUser={selectedUser} userList={userList} />
-            </div>
-        </div>
-    )
-}
-
-export default Body;
+export { Body };

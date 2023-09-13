@@ -1,27 +1,40 @@
-import React from 'react'
+//Libs
+import React from "react";
 
-import HistoryIcon from './historyIcon/HistoryIcon'
-import SearchBar from './searchBar/SearchBar'
-import UserLogo from '../userLogo/UserLogo'
-import HelpIcon from './helpIcon/HelpIcon'
+//Components
+import { SearchBar } from "./components/searchBar/SearchBar";
 
-import './top-navbar.css'
+//Context/ContextHooks
+import { useCurrentUser } from "../../contexts/CurrentUser";
 
-const TopNavbar = () => {
-    return (
-        <nav className='top-nav'>
-            <div className='top-nav-left'>
-                <HistoryIcon />
-            </div>
-            <div className='top-nav-mid'>
-                <SearchBar />
-            </div>
-            <div className='top-nav-right'>
-                <HelpIcon />
-                <UserLogo />
-            </div>
-        </nav>
-    )
-}
+//Icons
+import { UserLogo } from "../userLogo/UserLogo"; /* LATER CHANGE USERLOGO FROM ICON TO COMPONENT */
+import { HistoryIcon } from "./icons/historyIcon/HistoryIcon";
+import { HelpIcon } from "./icons/helpIcon/HelpIcon";
 
-export default TopNavbar;
+//Styles
+import "./top-nav-bar.css";
+
+type Props = {
+  channelName: string;
+};
+
+const TopNavBar = ({ channelName }: Props) => {
+  const currentUser = useCurrentUser();
+  return (
+    <nav className="top-nav">
+      <div className="top-nav-left">
+        <HistoryIcon />
+      </div>
+      <div className="top-nav-mid">
+        <SearchBar channelName={channelName} />
+      </div>
+      <div className="top-nav-right">
+        <HelpIcon />
+        <UserLogo user={currentUser} />
+      </div>
+    </nav>
+  );
+};
+
+export { TopNavBar };

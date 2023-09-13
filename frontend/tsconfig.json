@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ES5",
     "sourceMap": true,
     "outDir": "dist",
-    "lib": [
-      "es5", "es6", "dom", "dom.iterable"
-  ]
-  },
-  "include": [
-    "backend/**/*"
-  ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "lib": ["es5", "es6", "dom", "dom.iterable"]
+  }
 }

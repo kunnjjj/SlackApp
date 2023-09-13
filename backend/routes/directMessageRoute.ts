@@ -1,6 +1,6 @@
 import express from "express";
-import DirectMessageController from "../controllers/directMessageController";
-import { v4 as uuidv4 } from 'uuid';
+import { Controller as DirectMessageController } from "../controllers/directMessageController";
+import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
@@ -10,17 +10,17 @@ router.get("/", (req, res) => {
 
 router.post("/:senderId/:receiverID", (req, res) => {
   try {
-    const senderId:string = req.params.senderId;
-    const receiverID:string = req.params.receiverID;
+    const senderId: string = req.params.senderId;
+    const receiverID: string = req.params.receiverID;
     console.log(req.body);
     const message = {
-      id:uuidv4(),
+      id: uuidv4(),
       senderId: senderId,
       receiverID: receiverID,
       text: req.body.text as string,
       timestamp: +new Date(),
     };
-    console.log('message',message);
+    console.log("message", message);
 
     DirectMessageController.addMessage(senderId, receiverID, message);
     res.status(201).send(message);
@@ -35,4 +35,4 @@ router.get("/:senderId/:recieverId", (req, res) => {
   res.send(JSON.stringify(DirectMessageController.getMessageList(id1, id2)));
 });
 
-export default router;
+export { router };

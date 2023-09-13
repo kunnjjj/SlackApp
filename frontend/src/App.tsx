@@ -1,5 +1,12 @@
-import './App.css';
-import HomeScreen from './screens/HomeScreen';
+//Libs
+import React from "react";
+
+//Components
+import { HomeScreen } from "./screens/HomeScreen";
+
+//Styles
+import "./App.css";
+
 function App() {
   return (
     <div className="App">

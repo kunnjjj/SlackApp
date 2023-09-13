@@ -1,0 +1,25 @@
+.direct-message-user-topbar {
+  width: 100%;
+  box-shadow: 0px 0px 1px gray;
+  padding: 10px 20px;
+}
+
+.direct-message-user-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.direct-message-username {
+  color: #000000;
+}
+
+.inverted {
+  transform: rotateX(180deg);
+  display: inline-block;
+}
+
+.icon-name-wrap {
+  gap: 10px;
+  border-radius: 5px;
+  padding: 3px 4px;
+}

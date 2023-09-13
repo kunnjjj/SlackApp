@@ -1,28 +1,34 @@
-import React from 'react'
-import TopNavbar from '../components/topnavbar/TopNavbar'
-import Body from '../components/body/Body'
-import { type User } from '../types/user';
-import UserLogo from '../components/userLogo/UserLogo';
-import { CurrentUserProvider } from '../contexts/CurrentUser';
-import { ChannelNameProvider } from '../contexts/ChannelName';
+//Libs
+import React, { useMemo } from "react";
 
-const currentUser: User = {
-  icon: <UserLogo />,
-  name: "Current User",
-  id: '0',
-};
+//Components
+import { TopNavBar } from "../components/topnavbar";
+import { Body } from "../components/body/Body";
+
+//Hocs/Contexts
+import { CurrentUserProvider } from "../contexts/CurrentUser";
+
+//Types
+import { User } from "../components/body/types/user";
 
 const HomeScreen = () => {
+  const CHANNEL_NAME = "Sprinklr Frontend"; /* LATER backend*/
+  const currentUser: User = useMemo(() => {
+    /* LATER backend? */
+    return {
+      name: "User 0",
+      id: "0",
+    };
+  }, []);
+
   return (
     <>
       <CurrentUserProvider value={currentUser}>
-        <ChannelNameProvider value="Sprinklr Frontend">
-          <TopNavbar />
-          <Body />
-        </ChannelNameProvider>
+        <TopNavBar channelName={CHANNEL_NAME} />
+        <Body channelName={CHANNEL_NAME} />
       </CurrentUserProvider>
     </>
   );
 };
 
-export default HomeScreen;
+export { HomeScreen };
